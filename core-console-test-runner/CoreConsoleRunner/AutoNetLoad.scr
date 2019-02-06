@@ -1,3 +1,4 @@
 ﻿SECURELOAD 0
 netload "{dir}\core-console-test-runner\CoreConsoleRunner\bin\Release\CoreConsoleRunner.dll" RunTests
 SECURELOAD 1
+QUIT
