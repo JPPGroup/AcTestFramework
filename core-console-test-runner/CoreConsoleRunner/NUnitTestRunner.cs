@@ -19,6 +19,8 @@ namespace CoreConsoleRunner
         {
             var files = TestAssembliesFromCommandLineArguments();
 
+            if (files == null) return;
+
             foreach (var file in files)
             {
                 var assemblyDir = Path.GetDirectoryName(file);
