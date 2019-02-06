@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BoilerPlate.AutoCAD.UnitTests")]
+[assembly: AssemblyTitle("Boiler Plate Unit Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BoilerPlate.AutoCAD.UnitTests")]
+[assembly: AssemblyCompany("JPP Consulting Ltd")]
+[assembly: AssemblyProduct("Boiler Plate Unit Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
