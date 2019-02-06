@@ -23,11 +23,11 @@ namespace BoilerPlate.AutoCAD.UnitTests
         }
 
 
-        [Test]
-        public void Test_method_should_fail()
-        {
-            Assert.Fail("This test was supposed to fail.");
-        }
+        //[Test]
+        //public void Test_method_should_fail()
+        //{
+        //    Assert.Fail("This test was supposed to fail.");
+        //}
 
         [Test]
         public void Test_method_existing_drawing()
