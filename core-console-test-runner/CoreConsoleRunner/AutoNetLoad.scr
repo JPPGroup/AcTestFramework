@@ -1,0 +1,3 @@
+﻿SECURELOAD 0
+netload "D:\Development\Repositories\CAD-TestRunner\CoreConsoleRunner\CoreConsoleRunner\bin\Debug\CoreConsoleRunner.dll" RunTests
+SECURELOAD 1
