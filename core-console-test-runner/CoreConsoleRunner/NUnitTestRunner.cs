@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,6 +18,8 @@ namespace CoreConsoleRunner
         [CommandMethod("RunTests", CommandFlags.Session)]
         public void RunTests()
         {
+            if (DebuggerFromCommandLineArguments()) Debugger.Launch();
+
             var files = TestAssembliesFromCommandLineArguments();
 
             if (files == null) return;
@@ -52,6 +55,12 @@ namespace CoreConsoleRunner
             if (string.IsNullOrEmpty(path)) return null;
 
             return from f in Directory.EnumerateFiles(path) where f.ToLower().EndsWith("tests.dll") select f;
+        }
+
+        private static bool DebuggerFromCommandLineArguments()
+        {
+            var args = Environment.GetCommandLineArgs();
+            return args.Any(arg => arg.ToLower().StartsWith(@"/debug"));
         }
     }
 }
