@@ -37,6 +37,9 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+	<StartArguments>/s D:\Development\Repositories\autocad-test-framework\core-console-test-runner\CoreConsoleRunner\bin\Debug\AutoNetLoad.scr /isolate  /tests:D:\Development\Repositories\autocad-test-framework\boiler-plate-test-library\BoilerPlate.AutoCAD.UnitTests\bin\Release</StartArguments>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe</StartProgram>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
