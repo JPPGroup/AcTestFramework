@@ -82,7 +82,7 @@ namespace CoreConsoleRunner
                 if (!Directory.Exists(testReportDir)) Directory.CreateDirectory(testReportDir);
 
                 var fileInputXml = Path.Combine(testReportDir, $"{testAssembly.GetName().Name}.Report-NUnit.xml");
-                var nUnitArgs = new List<string> { "--process=SINGLE", "--result=" + fileInputXml }.ToArray();
+                var nUnitArgs = new List<string> { "--workers=0", "--result=" + fileInputXml }.ToArray();
 
                 new AutoRun(testAssembly).Execute(nUnitArgs);
             }
