@@ -61,6 +61,11 @@ namespace BaseTestLibrary
             return default(T);
         }
 
+        protected T RunTest<T>(string test)
+        {
+            return RunTest<T>(test, null);
+        }
+
         private void CleanUpFile()
         {
             Utilities.DeleteIfExists(_testDrawingFile);

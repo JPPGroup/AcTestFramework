@@ -21,13 +21,8 @@ namespace ExampleTests
                 Value2 = 2
             };
 
-            var response = RunTest("Method1", initialData);
-            Assert.True(response.Result, "Ran in core console");
-
-            var responseData = response.Data as int?;
-            Assert.NotNull(responseData, "Should have response data");
-
-            Assert.AreEqual(1, responseData, "value passed");
+            var response = RunTest<int>("Method1", initialData);
+            Assert.AreEqual(1, response, "value passed");
         }
 
         public int? Method1(object testData)
@@ -46,13 +41,8 @@ namespace ExampleTests
                 Value2 = 4
             };
 
-            var response = RunTest("Method2", initialData);
-            Assert.True(response.Result, "Ran in core console");
-
-            var responseData = response.Data as int?;
-            Assert.NotNull(responseData, "Should have response data");
-
-            Assert.AreEqual(9, responseData, "value passed");
+            var response = RunTest<int>("Method2", initialData);
+            Assert.AreEqual(9, response, "value passed");
         }
 
         public int? Method2(object testData)
@@ -74,17 +64,12 @@ namespace ExampleTests
                 Value5 = 5
             };
 
-            var response = RunTest("Method3", initialData);
-            Assert.True(response.Result, "Ran in core console");
-
-            var responseData = response.Data as TestData3;
-            Assert.NotNull(responseData, "Should have response data");
-
-            Assert.AreEqual(10, responseData.Value1, "value 1 passed");
-            Assert.AreEqual(20, responseData.Value2, "value 2 passed");
-            Assert.AreEqual(30, responseData.Value3, "value 3 passed");
-            Assert.AreEqual(40, responseData.Value4, "value 4 passed");
-            Assert.AreEqual(50, responseData.Value5, "value 5 passed");
+            var response = RunTest<TestData3>("Method3", initialData);
+            Assert.AreEqual(10, response.Value1, "value 1 passed");
+            Assert.AreEqual(20, response.Value2, "value 2 passed");
+            Assert.AreEqual(30, response.Value3, "value 3 passed");
+            Assert.AreEqual(40, response.Value4, "value 4 passed");
+            Assert.AreEqual(50, response.Value5, "value 5 passed");
         }
 
         public TestData3 Method3(object testData)
@@ -100,5 +85,18 @@ namespace ExampleTests
                 Value5 = data.Value5 * 10
             };
         }
+
+        [Test]
+        public void TestMethod4()
+        {           
+            var response = RunTest<int>("Method4", null);
+            Assert.AreEqual(5, response, "value passed");
+        }
+
+        public int Method4()
+        {
+            return 5;
+        }
+
     }
 }
