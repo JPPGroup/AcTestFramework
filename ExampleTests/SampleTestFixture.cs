@@ -89,7 +89,7 @@ namespace ExampleTests
         [Test]
         public void TestMethod4()
         {           
-            var response = RunTest<int>("Method4", null);
+            var response = RunTest<int>("Method4");
             Assert.AreEqual(5, response, "value passed");
         }
 
