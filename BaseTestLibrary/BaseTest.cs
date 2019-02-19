@@ -46,13 +46,19 @@ namespace BaseTestLibrary
             CleanUpFile();            
         }
 
-        protected TestResponse RunTest(string test, object data)
+        protected T RunTest<T>(string test, object data)
         {
             var request = new TestRequest {Name = test, Data = data};
             var message = new CommandMessage { Command = Commands.TestCase, Data = request };
 
             var response = _pipeClient.RunCommand(message) as TestResponse;
-            return response;
+            Assert.NotNull(response, "Not null response from core console");
+            Assert.True(response.Result, "Result from core console");
+
+            if (response.Data is T responseData) return responseData;
+
+            Assert.Fail("Invalid response data");
+            return default(T);
         }
 
         private void CleanUpFile()

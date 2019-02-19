@@ -91,10 +91,10 @@ namespace BaseTestLibrary.Pipe
         {
             if (!(msgData is TestRequest testReq)) return new TestResponse {Result = false};
 
-            var methodInfo = _type.GetMethod(testReq.Name, new[] { typeof(object) });
+            var methodInfo = _type.GetMethod(testReq.Name);
             if (methodInfo == null) return new TestResponse { Result = false };
-            
-            var parameters = new[] { testReq.Data };
+
+            var parameters = testReq.Data == null ? null : new[] { testReq.Data };
             var result = methodInfo.Invoke(_testLibObj, parameters);
 
             return new TestResponse { Result = true, Data = result};
