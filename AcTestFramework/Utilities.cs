@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Jpp.AcTestFramework.Properties;
@@ -20,14 +19,14 @@ namespace Jpp.AcTestFramework
         /// <summary>
         /// Creates a copy of a drawing
         /// </summary>
-        /// <param name="fixtureGuid">Guid for drawing file name</param>
+        /// <param name="fixtureId">Id for drawing file name</param>
         /// <param name="drawingFile">Original drawing file location</param>
         /// <returns>Location of newly created drawing</returns>
-        public static string CreateDrawingFile(Guid fixtureGuid, string drawingFile)
+        public static string CreateDrawingFile(string fixtureId, string drawingFile)
         {
             if (string.IsNullOrEmpty(drawingFile)) return "";
 
-            var fileName = $"{fixtureGuid.ToString()}.{DRAWING_FILE_EXT}";
+            var fileName = $"{fixtureId}.{DRAWING_FILE_EXT}";
             var filePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), fileName);
 
             DeleteIfExists(filePath);
@@ -40,14 +39,17 @@ namespace Jpp.AcTestFramework
         /// <summary>
         /// Creates a AutoCAD Core Console script
         /// </summary>
-        /// <param name="fixtureGuid">Guid for script file name</param>
+        /// <param name="fixtureId">Id for script file name</param>
         /// <returns>Location of newly created drawing</returns>
-        public static string CreateScriptFile(Guid fixtureGuid)
+        public static string CreateScriptFile(string fixtureId)
         {
-            var scriptFileName = $"{fixtureGuid.ToString()}.{SCRIPT_FILE_EXT}";
+            var scriptFileName = $"{fixtureId}.{SCRIPT_FILE_EXT}";
             var scriptFilePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), scriptFileName);
             var listenLibFilePath = GetExecutingAssemblyLocation();
-            var content = Resources.CommandScriptTemplate.Replace("<DLLPATH>", listenLibFilePath).Replace("<CUSTOMCOMMAND>", "START_LISTENER").Replace("<TESTGUID>", fixtureGuid.ToString());
+            var content = Resources.CommandScriptTemplate
+                .Replace("<DLLPATH>", listenLibFilePath)
+                .Replace("<CUSTOMCOMMAND>", "START_LISTENER")
+                .Replace("<TESTGUID>", fixtureId);
 
             DeleteIfExists(scriptFilePath);
 

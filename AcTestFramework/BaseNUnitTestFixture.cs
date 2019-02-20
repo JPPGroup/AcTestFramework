@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading;
 using Jpp.AcTestFramework.Pipe;
 using Jpp.AcTestFramework.Serialization;
@@ -13,26 +14,44 @@ namespace Jpp.AcTestFramework
         public virtual double TearDownWaitSeconds { get; } = 1;
         public virtual int ClientTimeout { get; } = 4000;
 
-        public abstract Guid FixtureGuid { get; }
-        public abstract string DrawingFile { get; }
-        public abstract bool HasDrawing { get; }
-        public abstract string AssemblyPath { get; }
-        public abstract string AssemblyType { get; }
+        public string FixtureId { get; }
+        public string DrawingFile { get; }
+        public bool HasDrawing { get; }
+        public string AssemblyPath { get; }
+        public string AssemblyType { get; }
 
         private string _testDrawingFile = "";
         private string _testScriptFile = "";
         private int _coreConsoleProcessId;
         private Client _pipeClient;
 
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType)
+        {
+            FixtureId = Guid.NewGuid().ToString();
+            AssemblyPath = fixtureAssembly.Location;
+            AssemblyType = fixtureType.FullName;
+            DrawingFile = "";
+            HasDrawing = false;
+        }
+
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile)
+        {
+            FixtureId = Guid.NewGuid().ToString();
+            AssemblyPath = fixtureAssembly.Location;
+            AssemblyType = fixtureType.FullName;
+            DrawingFile = drawingFile;
+            HasDrawing = true;
+        }
+
         [OneTimeSetUp]
         public void BaseSetup()
         {
-            _testDrawingFile = Utilities.CreateDrawingFile(FixtureGuid, DrawingFile);
-            _testScriptFile = Utilities.CreateScriptFile(FixtureGuid);
+            _testDrawingFile = Utilities.CreateDrawingFile(FixtureId, DrawingFile);
+            _testScriptFile = Utilities.CreateScriptFile(FixtureId);
 
             _coreConsoleProcessId = HasDrawing ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
-            _pipeClient = new Client(FixtureGuid.ToString(), ClientTimeout);
+            _pipeClient = new Client(FixtureId, ClientTimeout);
 
             var startData = new RequestStart { Path = AssemblyPath, Type = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
@@ -60,7 +79,6 @@ namespace Jpp.AcTestFramework
             var response = _pipeClient.RunCommand(message) as ResponseTest;
             Assert.NotNull(response, "Null response from test command.");
             Assert.True(response.Result, "Failed result from test command.");
-
             if (response.Data is T responseData) return responseData;
 
             Assert.Fail("Invalid response data from test command.");

@@ -103,7 +103,7 @@ namespace Jpp.AcTestFramework.Pipe
             }
             catch (Exception)
             {
-                return new ResponseTest {Result = false};
+                return new ResponseTest { Result = false };
             }          
         }
     }
