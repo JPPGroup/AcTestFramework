@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
-namespace AcTestFramework.Pipe
+namespace Jpp.AcTestFramework.Pipe
 {
     public class Listener
     {

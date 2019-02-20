@@ -2,17 +2,17 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace AcTestFramework
+namespace Jpp.AcTestFramework
 {
     internal static class CoreConsoleRunner
     {        
         internal static int Run(string appPath, string drawingFilePath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
         {
-            if (!File.Exists(appPath)) throw new ArgumentException("Location of accoreconsole.exe not found !");
+            if (!File.Exists(appPath)) throw new ArgumentException("Location of application exe not found.");
             
             var hasDrawing = string.IsNullOrEmpty(drawingFilePath);
 
-            var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-GB" : $"/s \"{scriptFilePath}\" /isolate /l en-GB";
+            var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
             var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments} };
 
             if (showConsoleWindow)

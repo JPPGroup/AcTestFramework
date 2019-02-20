@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using AcTestFramework.Properties;
+using Jpp.AcTestFramework.Properties;
 
-namespace AcTestFramework
+namespace Jpp.AcTestFramework
 {
     /// <summary>
     /// A set of utility methods
@@ -27,6 +27,7 @@ namespace AcTestFramework
         {
             var fileName = $"{fixtureGuid.ToString()}.{DRAWING_FILE_EXT}";
             var filePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), fileName);
+
             DeleteIfExists(filePath);
 
             File.Copy(drawingFile, filePath);

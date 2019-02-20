@@ -3,9 +3,9 @@ using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using AcTestFramework.Serialization;
+using Jpp.AcTestFramework.Serialization;
 
-namespace AcTestFramework.Pipe
+namespace Jpp.AcTestFramework.Pipe
 {
     public sealed class Server
     {

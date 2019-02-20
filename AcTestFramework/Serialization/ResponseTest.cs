@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AcTestFramework.Serialization
+namespace Jpp.AcTestFramework.Serialization
 {
     [Serializable]
     public sealed class ResponseTest

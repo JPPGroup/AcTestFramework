@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Runtime.Serialization;
 
-namespace AcTestFramework.Serialization
+namespace Jpp.AcTestFramework.Serialization
 {
     internal sealed class DeserializationBinder : SerializationBinder
     {

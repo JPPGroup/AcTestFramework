@@ -8,7 +8,7 @@
     <ProjectGuid>{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AcTestFramework</RootNamespace>
+    <RootNamespace>Jpp.AcTestFramework</RootNamespace>
     <AssemblyName>AcTestFramework</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
