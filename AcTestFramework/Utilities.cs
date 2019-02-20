@@ -25,6 +25,8 @@ namespace Jpp.AcTestFramework
         /// <returns>Location of newly created drawing</returns>
         public static string CreateDrawingFile(Guid fixtureGuid, string drawingFile)
         {
+            if (string.IsNullOrEmpty(drawingFile)) return "";
+
             var fileName = $"{fixtureGuid.ToString()}.{DRAWING_FILE_EXT}";
             var filePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), fileName);
 
