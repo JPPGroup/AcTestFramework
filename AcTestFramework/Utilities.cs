@@ -2,22 +2,28 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using BaseTestLibrary.Properties;
+using AcTestFramework.Properties;
 
-namespace BaseTestLibrary
+namespace AcTestFramework
 {
     /// <summary>
     /// A set of utility methods
     /// </summary>
-    internal class Utilities
+    public static class Utilities
     {
         private const string SCRIPT_FILE_EXT = "scr";
         private const string DRAWING_FILE_EXT = "dwg";
 
-        public static string GetExecutingDirectoryByAssemblyLocation() => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        public static string GetExecutingAssemblyLocation() => Assembly.GetExecutingAssembly().Location;
+        private static string GetExecutingDirectoryByAssemblyLocation() => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static string GetExecutingAssemblyLocation() => Assembly.GetExecutingAssembly().Location;
 
-        internal static string CreateDrawingFile(Guid fixtureGuid, string drawingFile)
+        /// <summary>
+        /// Creates a copy of a drawing
+        /// </summary>
+        /// <param name="fixtureGuid">Guid for drawing file name</param>
+        /// <param name="drawingFile">Original drawing file location</param>
+        /// <returns>Location of newly created drawing</returns>
+        public static string CreateDrawingFile(Guid fixtureGuid, string drawingFile)
         {
             var fileName = $"{fixtureGuid.ToString()}.{DRAWING_FILE_EXT}";
             var filePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), fileName);
@@ -28,7 +34,12 @@ namespace BaseTestLibrary
             return filePath;
         }
 
-        internal static string CreateScriptFile(Guid fixtureGuid)
+        /// <summary>
+        /// Creates a AutoCAD Core Console script
+        /// </summary>
+        /// <param name="fixtureGuid">Guid for script file name</param>
+        /// <returns>Location of newly created drawing</returns>
+        public static string CreateScriptFile(Guid fixtureGuid)
         {
             var scriptFileName = $"{fixtureGuid.ToString()}.{SCRIPT_FILE_EXT}";
             var scriptFilePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), scriptFileName);

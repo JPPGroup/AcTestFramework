@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace BaseTestLibrary.Serialization
+namespace AcTestFramework.Serialization
 {
     [Serializable]
-    public class TestResponse
+    public sealed class ResponseTest
     {
         public bool Result { get; set; }
         public object Data { get; set; }

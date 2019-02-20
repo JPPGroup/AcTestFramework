@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace BaseTestLibrary.Serialization
+namespace AcTestFramework.Serialization
 {
     [Serializable]
-    public class CommandMessage
+    public sealed class CommandMessage
     {
         public Commands Command { get; set; }
         public object Data { get; set; }

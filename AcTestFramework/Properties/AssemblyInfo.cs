@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Base Test Library")]
-[assembly: AssemblyDescription("Base test library for testing custom AutoCAD libraries")]
+[assembly: AssemblyTitle("AutoCAD Test Framework")]
+[assembly: AssemblyDescription("Framwork for testing custom AutoCAD libraries")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JPP Consulting")]
-[assembly: AssemblyProduct("Base Test Library")]
+[assembly: AssemblyProduct("AutoCAD Test Framework")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

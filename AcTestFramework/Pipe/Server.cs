@@ -3,11 +3,11 @@ using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using BaseTestLibrary.Serialization;
+using AcTestFramework.Serialization;
 
-namespace BaseTestLibrary.Pipe
+namespace AcTestFramework.Pipe
 {
-    internal sealed class Server
+    public sealed class Server
     {
         private string _pipeName;
         private NamedPipeServerStream _pipeServer;
@@ -73,7 +73,7 @@ namespace BaseTestLibrary.Pipe
         {
             try
             {
-                if (!(msgData is StartData data)) return false;
+                if (!(msgData is RequestStart data)) return false;
 
                 _assembly = Assembly.LoadFrom(data.Path);
                 _type = _assembly.GetType(data.Type);
@@ -87,17 +87,24 @@ namespace BaseTestLibrary.Pipe
             }
         }
 
-        private TestResponse DoTest(object msgData)
+        private ResponseTest DoTest(object msgData)
         {
-            if (!(msgData is TestRequest testReq)) return new TestResponse {Result = false};
+            try
+            {
+                if (!(msgData is RequestTest testReq)) return new ResponseTest { Result = false };
 
-            var methodInfo = _type.GetMethod(testReq.Name);
-            if (methodInfo == null) return new TestResponse { Result = false };
+                var methodInfo = _type.GetMethod(testReq.Name);
+                if (methodInfo == null) return new ResponseTest { Result = false };
 
-            var parameters = testReq.Data == null ? null : new[] { testReq.Data };
-            var result = methodInfo.Invoke(_testLibObj, parameters);
+                var parameters = testReq.Data == null ? null : new[] { testReq.Data };
+                var result = methodInfo.Invoke(_testLibObj, parameters);
 
-            return new TestResponse { Result = true, Data = result};
+                return new ResponseTest { Result = true, Data = result };
+            }
+            catch (Exception)
+            {
+                return new ResponseTest {Result = false};
+            }          
         }
     }
 }

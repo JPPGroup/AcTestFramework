@@ -8,8 +8,8 @@
     <ProjectGuid>{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BaseTestLibrary</RootNamespace>
-    <AssemblyName>BaseTestLibrary</AssemblyName>
+    <RootNamespace>AcTestFramework</RootNamespace>
+    <AssemblyName>AcTestFramework</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -66,17 +66,17 @@
     <Compile Include="Pipe\Client.cs" />
     <Compile Include="Pipe\Listener.cs" />
     <Compile Include="Pipe\Server.cs" />
-    <Compile Include="BaseTest.cs" />
-    <Compile Include="CoreConsole.cs" />
+    <Compile Include="BaseNUnitTestFixture.cs" />
+    <Compile Include="CoreConsoleRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Serialization\StartData.cs" />
-    <Compile Include="Serialization\TestRequest.cs" />
-    <Compile Include="Serialization\TestResponse.cs" />
+    <Compile Include="Serialization\RequestStart.cs" />
+    <Compile Include="Serialization\RequestTest.cs" />
+    <Compile Include="Serialization\ResponseTest.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,9 @@
 ﻿using System.IO.Pipes;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using BaseTestLibrary.Serialization;
+using AcTestFramework.Serialization;
 
-namespace BaseTestLibrary.Pipe
+namespace AcTestFramework.Pipe
 {
     public sealed class Client
     {

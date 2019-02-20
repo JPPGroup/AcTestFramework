@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace BaseTestLibrary.Serialization
+namespace AcTestFramework.Serialization
 {
     [Serializable]
-    public class StartData
+    public sealed class RequestStart
     {
         public string Path { get; set; }
         public string Type { get; set; }

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Threading;
-using BaseTestLibrary.Pipe;
-using BaseTestLibrary.Serialization;
+using AcTestFramework.Pipe;
+using AcTestFramework.Serialization;
 using NUnit.Framework;
 
-namespace BaseTestLibrary
+namespace AcTestFramework
 {
-    public abstract class BaseTest
-    {      
+    public abstract class BaseNUnitTestFixture
+    {
+        public virtual bool ShowCommandWindow { get; } = false;
+        public virtual string CoreConsole { get; } = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
+
         public abstract Guid FixtureGuid { get; }
         public abstract string DrawingFile { get; }
+        public abstract bool HasDrawing { get; }
         public abstract string AssemblyPath { get; }
         public abstract string AssemblyType { get; }
 
@@ -24,11 +28,11 @@ namespace BaseTestLibrary
             _testDrawingFile = Utilities.CreateDrawingFile(FixtureGuid, DrawingFile);
             _testScriptFile = Utilities.CreateScriptFile(FixtureGuid);
 
-            _coreConsoleProcessId = CoreConsole.Run(_testDrawingFile, _testScriptFile, 1000, false);
+            _coreConsoleProcessId = HasDrawing ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
             _pipeClient = new Client(FixtureGuid.ToString());
 
-            var startData = new StartData {Path = AssemblyPath, Type = AssemblyType};
+            var startData = new RequestStart { Path = AssemblyPath, Type = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
 
             if (!(bool) _pipeClient.RunCommand(message)) throw new ArgumentException("Failed to start server...");
@@ -48,10 +52,10 @@ namespace BaseTestLibrary
 
         protected T RunTest<T>(string test, object data)
         {
-            var request = new TestRequest {Name = test, Data = data};
+            var request = new RequestTest {Name = test, Data = data};
             var message = new CommandMessage { Command = Commands.TestCase, Data = request };
 
-            var response = _pipeClient.RunCommand(message) as TestResponse;
+            var response = _pipeClient.RunCommand(message) as ResponseTest;
             Assert.NotNull(response, "Not null response from core console");
             Assert.True(response.Result, "Result from core console");
 
