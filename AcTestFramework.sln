@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcTestFramework", "AcTestFramework\AcTestFramework.csproj", "{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.ActiveCfg = Debug|x64
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.Build.0 = Debug|x64
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.ActiveCfg = Release|x64
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {323EF3B7-7F77-4283-93B4-600A949A9D97}
+	EndGlobalSection
+EndGlobal
