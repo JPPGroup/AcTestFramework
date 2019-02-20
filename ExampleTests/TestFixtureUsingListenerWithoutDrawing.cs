@@ -118,6 +118,5 @@ namespace ExampleTests
             Array.Reverse(charArray);
             return new string(charArray);
         }
-
     }
 }
