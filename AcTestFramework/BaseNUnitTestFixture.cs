@@ -49,7 +49,9 @@ namespace Jpp.AcTestFramework
             _testDrawingFile = Utilities.CreateDrawingFile(FixtureId, DrawingFile);
             _testScriptFile = Utilities.CreateScriptFile(FixtureId);
 
-            _coreConsoleProcessId = HasDrawing ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
+            _coreConsoleProcessId = HasDrawing 
+                ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
+                : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
             _pipeClient = new Client(FixtureId, ClientTimeout);
 

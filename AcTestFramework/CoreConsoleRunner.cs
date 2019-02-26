@@ -10,7 +10,7 @@ namespace Jpp.AcTestFramework
         {
             if (!File.Exists(appPath)) throw new ArgumentException("Location of application exe not found.");
             
-            var hasDrawing = string.IsNullOrEmpty(drawingFilePath);
+            var hasDrawing = !string.IsNullOrEmpty(drawingFilePath);
 
             var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
             var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments} };
