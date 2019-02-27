@@ -30,7 +30,7 @@ namespace Jpp.AcTestFramework
             var filePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), fileName);
 
             DeleteIfExists(filePath);
-
+            Directory.SetCurrentDirectory(GetExecutingDirectoryByAssemblyLocation());
             File.Copy(drawingFile, filePath);
 
             return filePath;
