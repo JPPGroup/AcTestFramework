@@ -49,6 +49,8 @@ namespace Jpp.AcTestFramework
             _testDrawingFile = Utilities.CreateDrawingFile(FixtureId, DrawingFile);
             _testScriptFile = Utilities.CreateScriptFile(FixtureId);
 
+            Setup();
+
             _coreConsoleProcessId = HasDrawing 
                 ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
                 : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
@@ -60,6 +62,8 @@ namespace Jpp.AcTestFramework
 
             if (!(bool) _pipeClient.RunCommand(message)) throw new ArgumentException("Failed start command.");
         }
+
+        public virtual void Setup() { }
 
         [OneTimeTearDown]
         public void BaseTearDown()
