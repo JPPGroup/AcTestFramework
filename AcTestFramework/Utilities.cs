@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using Jpp.AcTestFramework.Properties;
 
 namespace Jpp.AcTestFramework
@@ -63,15 +65,20 @@ namespace Jpp.AcTestFramework
 
         internal static bool DeleteIfExists(string filePath)
         {
-            try
+            for (var i = 0; i < 3; i++)
             {
-                if (File.Exists(filePath)) File.Delete(filePath);
+                try
+                {
+                    if (File.Exists(filePath)) File.Delete(filePath);
+                    return true;
+                }
+                catch
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                }
             }
-            catch
-            {
-                return false;
-            }
-            return true;
+
+            return false;
         }
 
         internal static void KillProcess(int pid)

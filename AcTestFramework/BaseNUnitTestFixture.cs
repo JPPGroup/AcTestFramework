@@ -107,7 +107,7 @@ namespace Jpp.AcTestFramework
         private void CleanUpFile()
         {
             Utilities.DeleteIfExists(_testDrawingFile);
-            Utilities.DeleteIfExists(_testScriptFile);
+            Utilities.DeleteIfExists(_testScriptFile);    
         }
     }
 }
