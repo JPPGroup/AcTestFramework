@@ -119,11 +119,10 @@
   </resheader>
   <data name="CommandScriptTemplate" xml:space="preserve">
     <value>_SECURELOAD 0
-_NETLOAD "&lt;COREPATH&gt;"
 _NETLOAD "&lt;DLLPATH&gt;"
 &lt;CUSTOMCOMMAND&gt;
 &lt;TESTGUID&gt;
-_SECURELOAD 0
+_SECURELOAD 1
 </value>
     <comment>Loads core and test lib, then invokes listener command.</comment>
   </data>

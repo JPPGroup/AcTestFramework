@@ -5,7 +5,8 @@ namespace Jpp.AcTestFramework.Serialization
     [Serializable]
     public sealed class RequestStart
     {
-        public string Path { get; set; }
-        public string Type { get; set; }
+        public string InitialLibrary { get; set; }
+        public string TestLibrary { get; set; }
+        public string TestType { get; set; }
     }
 }

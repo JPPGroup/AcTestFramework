@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using Jpp.AcTestFramework.Pipe;
@@ -13,6 +14,7 @@ namespace Jpp.AcTestFramework
         public virtual string CoreConsole { get; } = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
         public virtual double TearDownWaitSeconds { get; } = 1;
         public virtual int ClientTimeout { get; } = 4000;
+        public virtual string InitialLibrary { get; private set; } = "IronstoneCore.dll";
 
         public string FixtureId { get; }
         public string DrawingFile { get; }
@@ -57,7 +59,13 @@ namespace Jpp.AcTestFramework
 
             _pipeClient = new Client(FixtureId, ClientTimeout);
 
-            var startData = new RequestStart { Path = AssemblyPath, Type = AssemblyType};
+            if (!string.IsNullOrEmpty(InitialLibrary))
+            {
+                var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                InitialLibrary = currentDir != null ? Path.Combine(currentDir, InitialLibrary) : "";
+            }
+            
+            var startData = new RequestStart { InitialLibrary = InitialLibrary, TestLibrary = AssemblyPath, TestType = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
 
             if (!(bool) _pipeClient.RunCommand(message)) throw new ArgumentException("Failed start command.");

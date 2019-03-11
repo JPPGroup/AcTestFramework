@@ -22,8 +22,8 @@ namespace Jpp.AcTestFramework.Pipe
 
             using (var pipeClient = new NamedPipeClientStream(_pipeName))
             {
-                pipeClient.Connect(_timeout);
-
+                pipeClient.Connect(_timeout);                        
+           
                 IFormatter writeFormatter = new BinaryFormatter();
                 IFormatter readFormatter = new BinaryFormatter { Binder = new DeserializationBinder() };
 

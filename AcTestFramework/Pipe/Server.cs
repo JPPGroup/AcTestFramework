@@ -75,8 +75,10 @@ namespace Jpp.AcTestFramework.Pipe
             {
                 if (!(msgData is RequestStart data)) return false;
 
-                _assembly = Assembly.LoadFrom(data.Path);
-                _type = _assembly.GetType(data.Type);
+                if (!string.IsNullOrEmpty(data.InitialLibrary)) Assembly.LoadFrom(data.InitialLibrary);
+
+                _assembly = Assembly.LoadFrom(data.TestLibrary);
+                _type = _assembly.GetType(data.TestType);
                 _testLibObj = Activator.CreateInstance(_type);
 
                 return true;

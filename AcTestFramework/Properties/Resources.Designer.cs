@@ -62,11 +62,10 @@ namespace Jpp.AcTestFramework.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to _SECURELOAD 0
-        ///_NETLOAD &quot;&lt;COREPATH&gt;&quot;
         ///_NETLOAD &quot;&lt;DLLPATH&gt;&quot;
         ///&lt;CUSTOMCOMMAND&gt;
         ///&lt;TESTGUID&gt;
-        ///_SECURELOAD 0
+        ///_SECURELOAD 1
         ///.
         /// </summary>
         internal static string CommandScriptTemplate {
