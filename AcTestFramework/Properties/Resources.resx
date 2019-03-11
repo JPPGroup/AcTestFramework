@@ -119,11 +119,12 @@
   </resheader>
   <data name="CommandScriptTemplate" xml:space="preserve">
     <value>_SECURELOAD 0
+_NETLOAD "&lt;COREPATH&gt;"
 _NETLOAD "&lt;DLLPATH&gt;"
 &lt;CUSTOMCOMMAND&gt;
 &lt;TESTGUID&gt;
 _SECURELOAD 0
 </value>
-    <comment>Invokes a command from a loaded .Net DLL</comment>
+    <comment>Loads core and test lib, then invokes listener command.</comment>
   </data>
 </root>

@@ -12,6 +12,7 @@ namespace Jpp.AcTestFramework
     {
         private const string SCRIPT_FILE_EXT = "scr";
         private const string DRAWING_FILE_EXT = "dwg";
+        private const string CORE_LIBRARY = "IronstoneCore.dll";
 
         private static string GetExecutingDirectoryByAssemblyLocation() => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         private static string GetExecutingAssemblyLocation() => Assembly.GetExecutingAssembly().Location;
@@ -45,8 +46,10 @@ namespace Jpp.AcTestFramework
         {
             var scriptFileName = $"{fixtureId}.{SCRIPT_FILE_EXT}";
             var scriptFilePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), scriptFileName);
+            var coreLibFilePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), CORE_LIBRARY);
             var listenLibFilePath = GetExecutingAssemblyLocation();
             var content = Resources.CommandScriptTemplate
+                .Replace("<COREPATH>", coreLibFilePath)
                 .Replace("<DLLPATH>", listenLibFilePath)
                 .Replace("<CUSTOMCOMMAND>", "START_LISTENER")
                 .Replace("<TESTGUID>", fixtureId);
