@@ -14,35 +14,46 @@ namespace Jpp.AcTestFramework
         public virtual string CoreConsole { get; } = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
         public virtual double TearDownWaitSeconds { get; } = 1;
         public virtual int ClientTimeout { get; } = 4000;
-        public virtual string InitialLibrary { get; private set; }
-
+        
         public string FixtureId { get; }
         public string DrawingFile { get; }
         public bool HasDrawing { get; }
         public string AssemblyPath { get; }
         public string AssemblyType { get; }
+        public string InitialLibrary { get; }
 
         private string _testDrawingFile = "";
         private string _testScriptFile = "";
         private int _coreConsoleProcessId;
         private Client _pipeClient;
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType)
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string initialLibrary = "")
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
             AssemblyType = fixtureType.FullName;
-            DrawingFile = "";
+            DrawingFile = "";            
             HasDrawing = false;
+
+            if (string.IsNullOrEmpty(initialLibrary)) return;
+
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            InitialLibrary = currentDir != null ? Path.Combine(currentDir, initialLibrary) : "";
         }
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile)
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, string initialLibrary = "")
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
             AssemblyType = fixtureType.FullName;
             DrawingFile = drawingFile;
+            InitialLibrary = initialLibrary;
             HasDrawing = true;
+
+            if (string.IsNullOrEmpty(initialLibrary)) return;
+
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            InitialLibrary = currentDir != null ? Path.Combine(currentDir, initialLibrary) : "";
         }
 
         [OneTimeSetUp]
@@ -58,12 +69,6 @@ namespace Jpp.AcTestFramework
                 : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
             _pipeClient = new Client(FixtureId, ClientTimeout);
-
-            if (!string.IsNullOrEmpty(InitialLibrary))
-            {
-                var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                InitialLibrary = currentDir != null ? Path.Combine(currentDir, InitialLibrary) : "";
-            }
             
             var startData = new RequestStart { InitialLibrary = InitialLibrary, TestLibrary = AssemblyPath, TestType = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
