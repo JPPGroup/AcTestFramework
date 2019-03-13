@@ -14,7 +14,7 @@ namespace Jpp.AcTestFramework
         public virtual string CoreConsole { get; } = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
         public virtual double TearDownWaitSeconds { get; } = 1;
         public virtual int ClientTimeout { get; } = 4000;
-        public virtual string InitialLibrary { get; private set; } = "IronstoneCore.dll";
+        public virtual string InitialLibrary { get; private set; }
 
         public string FixtureId { get; }
         public string DrawingFile { get; }
