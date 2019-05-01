@@ -13,7 +13,7 @@ namespace Jpp.AcTestFramework
             var hasDrawing = !string.IsNullOrEmpty(drawingFilePath);
 
             var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
-            var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments} };
+            var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments, Verb = "runas" } };
 
             if (showConsoleWindow)
             {
@@ -26,7 +26,7 @@ namespace Jpp.AcTestFramework
                 processObj.StartInfo.CreateNoWindow = true;
                 processObj.StartInfo.RedirectStandardOutput = true;
             }
-
+            
             processObj.Start();
             processObj.WaitForExit(maxWaitInMilliseconds);
 
