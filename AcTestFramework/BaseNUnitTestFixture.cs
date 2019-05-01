@@ -81,13 +81,22 @@ namespace Jpp.AcTestFramework
         [OneTimeTearDown]
         public void BaseTearDown()
         {
-            var message = new CommandMessage {Command = Commands.Stop};
-            _pipeClient.RunCommand(message);
+            try
+            {
+                var message = new CommandMessage { Command = Commands.Stop };
+                _pipeClient.RunCommand(message);
+            }
+            catch (Exception)
+            {
+                //need to log...
+            }
+            finally
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(TearDownWaitSeconds)); //Wait 1 secs for gracefully shut down before killing...
+                if (_coreConsoleProcessId > 0) Utilities.KillProcess(_coreConsoleProcessId);
 
-            Thread.Sleep(TimeSpan.FromSeconds(TearDownWaitSeconds)); //Wait 1 secs for gracefully shut down before killing...
-            if (_coreConsoleProcessId > 0) Utilities.KillProcess(_coreConsoleProcessId);
-
-            CleanUpFile();            
+                CleanUpFile();
+            }            
         }
 
         protected T RunTest<T>(string test, object data)
