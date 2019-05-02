@@ -14,6 +14,7 @@ namespace Jpp.AcTestFramework
         internal static int Run(FileLogger logger, string appPath, string drawingFilePath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
         {
             _logger = logger;
+            _logger.Entry("Console starting");
 
             if (!File.Exists(appPath)) throw new ArgumentException("Location of application exe not found.");
             
@@ -22,6 +23,7 @@ namespace Jpp.AcTestFramework
             var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
             var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments } };
 
+            processObj.StartInfo.WorkingDirectory = Path.GetDirectoryName(appPath) ?? throw new InvalidOperationException();
             if (showConsoleWindow)
             {
                 processObj.StartInfo.UseShellExecute = true;
@@ -39,12 +41,12 @@ namespace Jpp.AcTestFramework
             using (var pc = new PrincipalContext(ContextType.Machine))
             {
                 var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, AC_CORE_USER);
-
                 userExists = (up != null);
             }
 
             if (userExists)
             {
+                _logger.Entry($"Running console as {AC_CORE_USER}");
                 var securePwd = new SecureString();
                 securePwd.AppendChar('C');
                 securePwd.AppendChar('e');
@@ -65,6 +67,7 @@ namespace Jpp.AcTestFramework
             
             processObj.OutputDataReceived += CaptureOutput;
             processObj.ErrorDataReceived += CaptureError;
+            
 
             processObj.Start();
             processObj.BeginOutputReadLine();
@@ -97,8 +100,5 @@ namespace Jpp.AcTestFramework
                 _logger.Entry(data);
             }
         }
-
-
-
     }
 }
