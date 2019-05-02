@@ -20,7 +20,6 @@ namespace Jpp.AcTestFramework
             var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
             var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments } };
 
-            processObj.StartInfo.WorkingDirectory = Path.GetDirectoryName(appPath) ?? throw new InvalidOperationException();
             if (showConsoleWindow)
             {
                 processObj.StartInfo.UseShellExecute = true;
