@@ -36,6 +36,8 @@ namespace Jpp.AcTestFramework
             processObj.ErrorDataReceived += CaptureError;
 
             processObj.Start();
+            processObj.BeginOutputReadLine();
+            processObj.BeginErrorReadLine();
             processObj.WaitForExit(maxWaitInMilliseconds);
 
             return processObj.Id;
