@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -17,10 +16,9 @@ namespace Jpp.AcTestFramework.Pipe
         private object _testLibObj;
         private readonly FileLogger _logger;
 
-        public Server(bool isDebug)
+        public Server(FileLogger logger)
         {
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            _logger = new FileLogger(currentDir, FileLogger.LogType.Server, isDebug);
+            _logger = logger;
         }
 
         public void Listen(string pipeName)

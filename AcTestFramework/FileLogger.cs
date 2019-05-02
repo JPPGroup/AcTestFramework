@@ -6,7 +6,7 @@ namespace Jpp.AcTestFramework
 {
     public class FileLogger : IDisposable
     {
-        public enum LogType { TestFixture, Client, Server }
+        public enum LogType { Client, Server }
 
         private const string FILE_NAME = "AcTests_[type].log";
         private readonly Logger _logger;
@@ -22,7 +22,7 @@ namespace Jpp.AcTestFramework
             var logfile = new NLog.Targets.FileTarget(type.ToString()) { FileName = filePath, KeepFileOpen = false, ArchiveAboveSize = 1000000, MaxArchiveFiles = 10 };
             config.AddRule(LogLevel.Trace, LogLevel.Fatal, logfile);
             LogManager.Configuration = config;
-            _logger = LogManager.GetCurrentClassLogger();
+            _logger = LogManager.GetLogger(type.ToString());
         }
 
         public void Entry(string message)

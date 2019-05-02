@@ -23,8 +23,12 @@ namespace Jpp.AcTestFramework.Pipe
             var promptListener = ed.GetString("\nEnter the listener id: ");
             if (promptListener.Status != PromptStatus.OK) return;
 
-            var pipeServer = new Server(debug);
-            pipeServer.Listen(promptListener.StringResult);           
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            using (var log = new FileLogger(currentDir, FileLogger.LogType.Server, debug))
+            {
+                var pipeServer = new Server(log);
+                pipeServer.Listen(promptListener.StringResult);
+            }
         }
     }
 }

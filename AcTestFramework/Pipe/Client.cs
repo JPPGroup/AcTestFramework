@@ -13,13 +13,11 @@ namespace Jpp.AcTestFramework.Pipe
         private readonly int _timeout;
         private readonly FileLogger _logger;
 
-        public Client(string pipeName, int timeout, bool isDebug)
+        public Client(string pipeName, int timeout, FileLogger logger)
         {
             _pipeName = pipeName;
             _timeout = timeout;
-
-            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            _logger = new FileLogger(currentDir, FileLogger.LogType.Client, isDebug);
+            _logger = logger;
         }
 
         public object RunCommand(CommandMessage message)
