@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.DirectoryServices.AccountManagement;
+using System.Security;
 
 namespace Jpp.AcTestFramework
 {
     internal static class CoreConsoleRunner
     {
+        private const string AC_CORE_USER = "AcCore";
         private static FileLogger _logger;
 
         internal static int Run(FileLogger logger, string appPath, string drawingFilePath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
@@ -32,6 +35,34 @@ namespace Jpp.AcTestFramework
                 processObj.StartInfo.RedirectStandardError = true;
             }
 
+            bool userExists;
+            using (var pc = new PrincipalContext(ContextType.Machine))
+            {
+                var up = UserPrincipal.FindByIdentity(pc, IdentityType.SamAccountName, AC_CORE_USER);
+
+                userExists = (up != null);
+            }
+
+            if (userExists)
+            {
+                var securePwd = new SecureString();
+                securePwd.AppendChar('C');
+                securePwd.AppendChar('e');
+                securePwd.AppendChar('d');
+                securePwd.AppendChar('a');
+                securePwd.AppendChar('r');
+                securePwd.AppendChar('b');
+                securePwd.AppendChar('a');
+                securePwd.AppendChar('r');
+                securePwd.AppendChar('n');
+                securePwd.AppendChar('1');
+                securePwd.AppendChar('2');
+                securePwd.AppendChar('3');
+
+                processObj.StartInfo.UserName = AC_CORE_USER;
+                processObj.StartInfo.Password = securePwd;
+            }
+            
             processObj.OutputDataReceived += CaptureOutput;
             processObj.ErrorDataReceived += CaptureError;
 
@@ -66,6 +97,8 @@ namespace Jpp.AcTestFramework
                 _logger.Entry(data);
             }
         }
+
+
 
     }
 }
