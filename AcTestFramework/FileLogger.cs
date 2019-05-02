@@ -19,7 +19,7 @@ namespace Jpp.AcTestFramework
             var filePath = Path.Combine(directory ?? throw new InvalidOperationException(), fileName);
 
             var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = filePath, KeepFileOpen = false, ArchiveAboveSize = 1000000, MaxArchiveFiles = 10 };
+            var logfile = new NLog.Targets.FileTarget(type.ToString()) { FileName = filePath, KeepFileOpen = false, ArchiveAboveSize = 1000000, MaxArchiveFiles = 10 };
             config.AddRule(LogLevel.Trace, LogLevel.Fatal, logfile);
             LogManager.Configuration = config;
             _logger = LogManager.GetCurrentClassLogger();

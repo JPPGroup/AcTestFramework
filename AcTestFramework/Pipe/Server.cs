@@ -37,6 +37,10 @@ namespace Jpp.AcTestFramework.Pipe
             {
                 _logger.Exception(e);
             }
+            finally
+            {
+                _logger.Entry("Listen completed");
+            }            
         }
 
         private void BeginWaitingForConnection()
@@ -93,6 +97,8 @@ namespace Jpp.AcTestFramework.Pipe
             {
                 if (!(msgData is RequestStart data)) return false;
 
+                _logger.Entry("Start up initiated");
+
                 if (!string.IsNullOrEmpty(data.InitialLibrary)) Assembly.LoadFrom(data.InitialLibrary);
 
                 _assembly = Assembly.LoadFrom(data.TestLibrary);
@@ -113,6 +119,7 @@ namespace Jpp.AcTestFramework.Pipe
             try
             {
                 if (!(msgData is RequestTest testReq)) return new ResponseTest { Result = false };
+                _logger.Entry($"Test {testReq.Name} initiated");
 
                 var methodInfo = _type.GetMethod(testReq.Name);
                 if (methodInfo == null) return new ResponseTest { Result = false };

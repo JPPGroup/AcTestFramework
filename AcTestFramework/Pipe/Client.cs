@@ -24,7 +24,7 @@ namespace Jpp.AcTestFramework.Pipe
 
         public object RunCommand(CommandMessage message)
         {
-            _logger.Entry($"Running command {message.Command} started");
+            _logger.Entry($"Command {message.Command} started");
 
             CommandMessage response;
 
@@ -40,7 +40,7 @@ namespace Jpp.AcTestFramework.Pipe
                 response = (CommandMessage)readFormatter.Deserialize(pipeClient);
             }
 
-            _logger.Entry($"Running command {message.Command} completed");
+            _logger.Entry($"Command {message.Command} completed");
 
             return response.Data;
         }
