@@ -29,6 +29,7 @@ namespace Jpp.AcTestFramework
 
         private readonly bool _isDebug;
         private readonly FileLogger _logger;
+        private readonly FileLogger _logConsole;
 
         protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, bool isDebug = false, string initialLibrary = "")
         {
@@ -43,6 +44,7 @@ namespace Jpp.AcTestFramework
             InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
 
             _logger = new FileLogger(currentDir, FileLogger.LogType.Client, _isDebug);
+            _logConsole = new FileLogger(currentDir, FileLogger.LogType.Console, _isDebug);
         }
 
         protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, bool isDebug = false, string initialLibrary = "")
@@ -58,6 +60,7 @@ namespace Jpp.AcTestFramework
             InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
 
             _logger = new FileLogger(currentDir, FileLogger.LogType.Client, _isDebug);
+            _logConsole = new FileLogger(currentDir, FileLogger.LogType.Console, _isDebug);
         }
 
         [OneTimeSetUp]
@@ -70,15 +73,17 @@ namespace Jpp.AcTestFramework
             Setup();
 
             _coreConsoleProcessId = HasDrawing 
-                ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
-                : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
+                ? CoreConsoleRunner.Run(_logConsole, CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
+                : CoreConsoleRunner.Run(_logConsole, CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
             _pipeClient = new Client(FixtureId, ClientTimeout, _logger);
             
             var startData = new RequestStart { InitialLibrary = InitialLibrary, TestLibrary = AssemblyPath, TestType = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
 
-            if (!(bool) _pipeClient.RunCommand(message)) throw new ArgumentException("Failed start command.");
+            var started = _pipeClient.RunCommand(message);
+
+            if (started == null || !(bool)started ) throw new ArgumentException("Failed start command.");
 
             _logger.Entry("Base setup completed");
         }

@@ -5,9 +5,13 @@ using System.IO;
 namespace Jpp.AcTestFramework
 {
     internal static class CoreConsoleRunner
-    {        
-        internal static int Run(string appPath, string drawingFilePath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
+    {
+        private static FileLogger _logger;
+
+        internal static int Run(FileLogger logger, string appPath, string drawingFilePath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
         {
+            _logger = logger;
+
             if (!File.Exists(appPath)) throw new ArgumentException("Location of application exe not found.");
             
             var hasDrawing = !string.IsNullOrEmpty(drawingFilePath);
@@ -25,17 +29,40 @@ namespace Jpp.AcTestFramework
                 processObj.StartInfo.UseShellExecute = false;
                 processObj.StartInfo.CreateNoWindow = true;
                 processObj.StartInfo.RedirectStandardOutput = true;
+                processObj.StartInfo.RedirectStandardError = true;
             }
-            
+
+            processObj.OutputDataReceived += CaptureOutput;
+            processObj.ErrorDataReceived += CaptureError;
+
             processObj.Start();
             processObj.WaitForExit(maxWaitInMilliseconds);
 
             return processObj.Id;
         }
 
-        internal static int Run(string appPath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
+        internal static int Run(FileLogger logger, string appPath, string scriptFilePath, int maxWaitInMilliseconds, bool showConsoleWindow)
         {
-            return Run(appPath, null, scriptFilePath, maxWaitInMilliseconds, showConsoleWindow);        
+            return Run(logger, appPath, null, scriptFilePath, maxWaitInMilliseconds, showConsoleWindow);        
+        }
+
+
+        private static void CaptureOutput(object sender, DataReceivedEventArgs e)
+        {
+            ShowOutput(e.Data);
+        }
+
+        private static void CaptureError(object sender, DataReceivedEventArgs e)
+        {
+            ShowOutput(e.Data);
+        }
+
+        private static void ShowOutput(string data)
+        {
+            if (data != null)
+            {
+                _logger.Entry(data);
+            }
         }
 
     }
