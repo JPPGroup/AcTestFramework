@@ -1,6 +1,5 @@
-﻿using System.IO;
+﻿using System;
 using System.IO.Pipes;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Jpp.AcTestFramework.Serialization;
@@ -9,6 +8,7 @@ namespace Jpp.AcTestFramework.Pipe
 {
     public sealed class Client
     {
+        private const int RETRY = 3;
         private readonly string _pipeName;
         private readonly int _timeout;
         private readonly FileLogger _logger;
@@ -28,8 +28,28 @@ namespace Jpp.AcTestFramework.Pipe
 
             using (var pipeClient = new NamedPipeClientStream(_pipeName))
             {
-                pipeClient.Connect(_timeout);                        
-           
+                var i = 0;
+                while (true)
+                {
+                    try
+                    {
+                        pipeClient.Connect(_timeout);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        i++;
+
+                        if (i <= RETRY)
+                        {
+                            _logger.Entry($"Retrying to connect: attempt {i}");
+                            continue;
+                        }
+                        _logger.Exception(e);
+                        return null;
+                    }                   
+                }
+                         
                 IFormatter writeFormatter = new BinaryFormatter();
                 IFormatter readFormatter = new BinaryFormatter { Binder = new DeserializationBinder() };
 
