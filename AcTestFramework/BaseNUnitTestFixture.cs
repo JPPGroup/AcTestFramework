@@ -31,7 +31,7 @@ namespace Jpp.AcTestFramework
         private readonly FileLogger _logger;
         private readonly FileLogger _logConsole;
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, bool isDebug = false, string initialLibrary = "")
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string initialLibrary = "", bool isDebug = false)
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
@@ -47,7 +47,7 @@ namespace Jpp.AcTestFramework
             _logConsole = new FileLogger(currentDir, FileLogger.LogType.Console, _isDebug);
         }
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, bool isDebug = false, string initialLibrary = "")
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, string initialLibrary = "", bool isDebug = false)
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
