@@ -1,4 +1,6 @@
-﻿using System.IO.Pipes;
+﻿using System.IO;
+using System.IO.Pipes;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Jpp.AcTestFramework.Serialization;
@@ -11,11 +13,13 @@ namespace Jpp.AcTestFramework.Pipe
         private readonly int _timeout;
         private readonly FileLogger _logger;
 
-        public Client(string pipeName, int timeout, FileLogger logger)
+        public Client(string pipeName, int timeout, bool isDebug)
         {
             _pipeName = pipeName;
             _timeout = timeout;
-            _logger = logger;
+
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            _logger = new FileLogger(currentDir, FileLogger.LogType.Client, isDebug);
         }
 
         public object RunCommand(CommandMessage message)

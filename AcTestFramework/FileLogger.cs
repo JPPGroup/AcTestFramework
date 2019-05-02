@@ -6,14 +6,17 @@ namespace Jpp.AcTestFramework
 {
     public class FileLogger : IDisposable
     {
-        private const string FILE_NAME = "AcTests.log";
+        public enum LogType { TestFixture, Client, Server }
+
+        private const string FILE_NAME = "AcTests_[type].log";
         private readonly Logger _logger;
         private readonly bool _shouldLog;
 
-        public FileLogger(string directory, bool shouldLog = false)
+        public FileLogger(string directory, LogType type, bool shouldLog = false)
         {
             _shouldLog = shouldLog;
-            var filePath = Path.Combine(directory ?? throw new InvalidOperationException(), FILE_NAME);
+            var fileName = FILE_NAME.Replace("[type]", type.ToString());
+            var filePath = Path.Combine(directory ?? throw new InvalidOperationException(), fileName);
 
             var config = new NLog.Config.LoggingConfiguration();
             var logfile = new NLog.Targets.FileTarget("logfile") { FileName = filePath, KeepFileOpen = false, ArchiveAboveSize = 1000000, MaxArchiveFiles = 10 };

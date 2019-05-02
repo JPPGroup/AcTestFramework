@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -16,14 +17,15 @@ namespace Jpp.AcTestFramework.Pipe
         private object _testLibObj;
         private readonly FileLogger _logger;
 
-        public Server(FileLogger log)
+        public Server(bool isDebug)
         {
-            _logger = log;
+            var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            _logger = new FileLogger(currentDir, FileLogger.LogType.Server, isDebug);
         }
 
         public void Listen(string pipeName)
         {
-            _logger.Entry("Listener started");
+            _logger.Entry("Listen started");
             try
             {
                 _pipeName = pipeName;
@@ -39,7 +41,7 @@ namespace Jpp.AcTestFramework.Pipe
 
         private void BeginWaitingForConnection()
         {
-            _logger.Entry("Waiting for connection started");
+            _logger.Entry("Wait for connection started");
 
             if (_pipeServer == null) return;
 

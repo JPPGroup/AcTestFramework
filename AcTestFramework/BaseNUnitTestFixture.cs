@@ -42,7 +42,7 @@ namespace Jpp.AcTestFramework
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
 
-            _logger = new FileLogger(currentDir, _isDebug);
+            _logger = new FileLogger(currentDir, FileLogger.LogType.TestFixture, _isDebug);
         }
 
         protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, bool isDebug = false, string initialLibrary = "")
@@ -57,7 +57,7 @@ namespace Jpp.AcTestFramework
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
 
-            _logger = new FileLogger(currentDir, _isDebug);
+            _logger = new FileLogger(currentDir, FileLogger.LogType.TestFixture, _isDebug);
         }
 
         [OneTimeSetUp]
@@ -73,7 +73,7 @@ namespace Jpp.AcTestFramework
                 ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
                 : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
-            _pipeClient = new Client(FixtureId, ClientTimeout, _logger);
+            _pipeClient = new Client(FixtureId, ClientTimeout, _isDebug);
             
             var startData = new RequestStart { InitialLibrary = InitialLibrary, TestLibrary = AssemblyPath, TestType = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };

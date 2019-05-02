@@ -13,7 +13,7 @@ namespace Jpp.AcTestFramework
             var hasDrawing = !string.IsNullOrEmpty(drawingFilePath);
 
             var applicationArguments = hasDrawing ? $"/i \"{drawingFilePath}\" /s \"{scriptFilePath}\" /isolate /l en-gb" : $"/s \"{scriptFilePath}\" /isolate /l en-gb";
-            var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments, Verb = "runas" } };
+            var processObj = new Process { StartInfo = {FileName = appPath, Arguments = applicationArguments } };
 
             if (showConsoleWindow)
             {
