@@ -14,7 +14,7 @@ namespace Jpp.AcTestFramework
         public virtual string CoreConsole { get; } = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
         public virtual double TearDownWaitSeconds { get; } = 1;
         public virtual int ClientTimeout { get; } = 4000;
-        
+
         public string FixtureId { get; }
         public string DrawingFile { get; }
         public bool HasDrawing { get; }
@@ -23,44 +23,49 @@ namespace Jpp.AcTestFramework
         public string InitialLibrary { get; }
 
         private string _testDrawingFile = "";
-        private string _testScriptFile = "";
+        private string _testScriptFile = "";        
         private int _coreConsoleProcessId;
         private Client _pipeClient;
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string initialLibrary = "")
+        private readonly bool _isDebug;
+        private readonly FileLogger _logger;
+
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, bool isDebug = false, string initialLibrary = "")
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
             AssemblyType = fixtureType.FullName;
             DrawingFile = "";            
             HasDrawing = false;
-
-            if (string.IsNullOrEmpty(initialLibrary)) return;
-
+            _isDebug = isDebug;
+          
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            InitialLibrary = currentDir != null ? Path.Combine(currentDir, initialLibrary) : "";
+            InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
+
+            _logger = new FileLogger(currentDir, _isDebug);
         }
 
-        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, string initialLibrary = "")
+        protected BaseNUnitTestFixture(Assembly fixtureAssembly, Type fixtureType, string drawingFile, bool isDebug = false, string initialLibrary = "")
         {
             FixtureId = Guid.NewGuid().ToString();
             AssemblyPath = fixtureAssembly.Location;
             AssemblyType = fixtureType.FullName;
             DrawingFile = drawingFile;
-            InitialLibrary = initialLibrary;
             HasDrawing = true;
-
-            if (string.IsNullOrEmpty(initialLibrary)) return;
+            _isDebug = isDebug;
 
             var currentDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            InitialLibrary = currentDir != null ? Path.Combine(currentDir, initialLibrary) : "";
+            InitialLibrary = string.IsNullOrEmpty(initialLibrary) ? "" : Path.Combine(currentDir ?? throw new InvalidOperationException(), initialLibrary);
+
+            _logger = new FileLogger(currentDir, _isDebug);
         }
 
         [OneTimeSetUp]
         public void BaseSetup()
-        {
+        {   
+            _logger.Entry("Base setup started");
             _testDrawingFile = Utilities.CreateDrawingFile(FixtureId, DrawingFile);
-            _testScriptFile = Utilities.CreateScriptFile(FixtureId);
+            _testScriptFile = Utilities.CreateScriptFile(FixtureId, _isDebug);
 
             Setup();
 
@@ -68,12 +73,14 @@ namespace Jpp.AcTestFramework
                 ? CoreConsoleRunner.Run(CoreConsole, _testDrawingFile, _testScriptFile, 1000, ShowCommandWindow) 
                 : CoreConsoleRunner.Run(CoreConsole, _testScriptFile, 1000, ShowCommandWindow);
 
-            _pipeClient = new Client(FixtureId, ClientTimeout);
+            _pipeClient = new Client(FixtureId, ClientTimeout, _logger);
             
             var startData = new RequestStart { InitialLibrary = InitialLibrary, TestLibrary = AssemblyPath, TestType = AssemblyType};
             var message = new CommandMessage { Command = Commands.Start , Data = startData };
 
             if (!(bool) _pipeClient.RunCommand(message)) throw new ArgumentException("Failed start command.");
+
+            _logger.Entry("Base setup completed");
         }
 
         public virtual void Setup() { }
@@ -81,14 +88,16 @@ namespace Jpp.AcTestFramework
         [OneTimeTearDown]
         public void BaseTearDown()
         {
+            _logger.Entry("Base tear down started");
+
             try
             {
                 var message = new CommandMessage { Command = Commands.Stop };
                 _pipeClient.RunCommand(message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //need to log...
+                _logger.Exception(e);
             }
             finally
             {
@@ -96,15 +105,22 @@ namespace Jpp.AcTestFramework
                 if (_coreConsoleProcessId > 0) Utilities.KillProcess(_coreConsoleProcessId);
 
                 CleanUpFile();
+
+                _logger.Entry("Base tear down completed");
             }            
         }
 
         protected T RunTest<T>(string test, object data)
         {
+            _logger.Entry($"Test {test} started");
+
             var request = new RequestTest {Name = test, Data = data};
             var message = new CommandMessage { Command = Commands.TestCase, Data = request };
 
             var response = _pipeClient.RunCommand(message) as ResponseTest;
+
+            _logger.Entry($"Test {test} completed");
+
             Assert.NotNull(response, "Null response from test command.");
             Assert.True(response.Result, "Failed result from test command.");
             if (response.Data is T responseData) return responseData;

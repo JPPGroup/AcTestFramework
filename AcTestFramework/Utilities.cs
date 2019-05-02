@@ -42,8 +42,9 @@ namespace Jpp.AcTestFramework
         /// Creates a AutoCAD Core Console script
         /// </summary>
         /// <param name="fixtureId">Id for script file name</param>
+        /// <param name="isDebug"></param>
         /// <returns>Location of newly created drawing</returns>
-        public static string CreateScriptFile(string fixtureId)
+        public static string CreateScriptFile(string fixtureId, bool isDebug)
         {
             var scriptFileName = $"{fixtureId}.{SCRIPT_FILE_EXT}";
             var scriptFilePath = Path.Combine(GetExecutingDirectoryByAssemblyLocation(), scriptFileName);
@@ -51,6 +52,7 @@ namespace Jpp.AcTestFramework
             var content = Resources.CommandScriptTemplate
                 .Replace("<DLLPATH>", listenLibFilePath)
                 .Replace("<CUSTOMCOMMAND>", "START_LISTENER")
+                .Replace("<DEBUG>", isDebug.ToString())
                 .Replace("<TESTGUID>", fixtureId);
 
             DeleteIfExists(scriptFilePath);

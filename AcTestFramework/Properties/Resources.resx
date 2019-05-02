@@ -121,6 +121,7 @@
     <value>_SECURELOAD 0
 _NETLOAD "&lt;DLLPATH&gt;"
 &lt;CUSTOMCOMMAND&gt;
+&lt;DEBUG&gt;
 &lt;TESTGUID&gt;
 _SECURELOAD 1
 </value>

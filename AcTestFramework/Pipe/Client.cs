@@ -9,15 +9,19 @@ namespace Jpp.AcTestFramework.Pipe
     {
         private readonly string _pipeName;
         private readonly int _timeout;
+        private readonly FileLogger _logger;
 
-        public Client(string pipeName, int timeout)
+        public Client(string pipeName, int timeout, FileLogger logger)
         {
             _pipeName = pipeName;
             _timeout = timeout;
+            _logger = logger;
         }
 
         public object RunCommand(CommandMessage message)
         {
+            _logger.Entry($"Running command {message.Command} started");
+
             CommandMessage response;
 
             using (var pipeClient = new NamedPipeClientStream(_pipeName))
@@ -31,7 +35,9 @@ namespace Jpp.AcTestFramework.Pipe
 
                 response = (CommandMessage)readFormatter.Deserialize(pipeClient);
             }
-           
+
+            _logger.Entry($"Running command {message.Command} completed");
+
             return response.Data;
         }
     }

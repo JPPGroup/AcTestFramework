@@ -14,9 +14,16 @@ namespace Jpp.AcTestFramework.Pipe
         private Assembly _assembly;
         private Type _type;
         private object _testLibObj;
+        private readonly FileLogger _logger;
+
+        public Server(FileLogger log)
+        {
+            _logger = log;
+        }
 
         public void Listen(string pipeName)
         {
+            _logger.Entry("Listener started");
             try
             {
                 _pipeName = pipeName;
@@ -24,23 +31,30 @@ namespace Jpp.AcTestFramework.Pipe
 
                 BeginWaitingForConnection();
             }
-            catch
+            catch (Exception e)
             {
-                // ignored
+                _logger.Exception(e);
             }
         }
 
         private void BeginWaitingForConnection()
         {
+            _logger.Entry("Waiting for connection started");
+
             if (_pipeServer == null) return;
 
             _pipeServer.WaitForConnection();
+
+            _logger.Entry("Connection received");
 
             IFormatter readFormatter = new BinaryFormatter { Binder = new DeserializationBinder() };
             IFormatter writeFormatter = new BinaryFormatter();
 
             var message = (CommandMessage)readFormatter.Deserialize(_pipeServer);
             object response;
+
+            _logger.Entry($"{message.Command} command received");
+
             switch (message.Command)
             {
                 case Commands.Start:
@@ -58,6 +72,8 @@ namespace Jpp.AcTestFramework.Pipe
 
             message.Data = response;
             writeFormatter.Serialize(_pipeServer, message);
+
+            _logger.Entry("Response sent");
 
             _pipeServer.Close();
             _pipeServer = null;
@@ -83,8 +99,9 @@ namespace Jpp.AcTestFramework.Pipe
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Exception(e);
                 return false;
             }
         }
@@ -103,8 +120,9 @@ namespace Jpp.AcTestFramework.Pipe
 
                 return new ResponseTest { Result = true, Data = result };
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.Exception(e);
                 return new ResponseTest { Result = false };
             }          
         }

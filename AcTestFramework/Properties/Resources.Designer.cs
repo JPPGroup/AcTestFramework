@@ -64,6 +64,7 @@ namespace Jpp.AcTestFramework.Properties {
         ///   Looks up a localized string similar to _SECURELOAD 0
         ///_NETLOAD &quot;&lt;DLLPATH&gt;&quot;
         ///&lt;CUSTOMCOMMAND&gt;
+        ///&lt;DEBUG&gt;
         ///&lt;TESTGUID&gt;
         ///_SECURELOAD 1
         ///.
