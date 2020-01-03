@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExampleTests
+namespace AcTestFramework.Tests
 {
     [Serializable]
     public class TestData1

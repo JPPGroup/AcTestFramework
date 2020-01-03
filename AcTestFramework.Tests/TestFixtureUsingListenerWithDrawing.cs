@@ -2,11 +2,15 @@
 using Jpp.AcTestFramework;
 using NUnit.Framework;
 
-namespace ExampleTests
+namespace AcTestFramework.Tests
 {
     public class TestFixtureUsingListenerWithDrawing : BaseNUnitTestFixture
     {
-        public TestFixtureUsingListenerWithDrawing() : base(Assembly.GetExecutingAssembly(), typeof(TestFixtureUsingListenerWithDrawing), @"C:\Test.dwg") { }
+        private const bool DEBUG = true;
+        private const string DRAWING_FILE = "";
+        private const string INITIAL_LIBRARY = "";
+
+        public TestFixtureUsingListenerWithDrawing() : base(Assembly.GetExecutingAssembly(), typeof(TestFixtureUsingListenerWithDrawing), DRAWING_FILE, INITIAL_LIBRARY, DEBUG) { }
 
         [Test]
         public void TestMethod_SomethingToTest()

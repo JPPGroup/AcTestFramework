@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcTestFramework", "AcTestFramework\AcTestFramework.csproj", "{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcTestFramework.Tests", "AcTestFramework.Tests\AcTestFramework.Tests.csproj", "{36984A10-3A18-4108-A155-ADBEB2DB8F97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.Build.0 = Debug|x64
 		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.ActiveCfg = Release|x64
 		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.Build.0 = Release|x64
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.ActiveCfg = Debug|x64
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.Build.0 = Debug|x64
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.ActiveCfg = Release|x64
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
