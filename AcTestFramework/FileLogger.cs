@@ -8,18 +8,28 @@ namespace Jpp.AcTestFramework
     {
         public enum LogType { Client, Server, Console }
 
-        private const string FILE_NAME = "AcTests.log";
+        private const string FILE_NAME = "AcTests.[TYPE].log";
         private readonly Logger _logger;
         private readonly bool _shouldLog;
 
         public FileLogger(string directory, LogType type, bool shouldLog = false)
         {
             _shouldLog = shouldLog;
-            var filePath = Path.Combine(directory ?? throw new InvalidOperationException(), FILE_NAME);
+            var file = FILE_NAME.Replace("[TYPE]", type.ToString());
+            var filePath = Path.Combine(directory ?? throw new InvalidOperationException(), file);
 
-            var config = new NLog.Config.LoggingConfiguration();
-            var logfile = new NLog.Targets.FileTarget(type.ToString()) { FileName = filePath, KeepFileOpen = false, ArchiveAboveSize = 1000000, MaxArchiveFiles = 10 };
-            config.AddRule(LogLevel.Trace, LogLevel.Fatal, logfile);
+            var config = LogManager.Configuration ?? new NLog.Config.LoggingConfiguration();
+
+            var target = new NLog.Targets.FileTarget
+            {
+                Name = type.ToString(),
+                FileName = filePath, 
+                KeepFileOpen = false, 
+                ArchiveAboveSize = 1000000, 
+                MaxArchiveFiles = 10
+            };
+
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, target, type.ToString());
             LogManager.Configuration = config;
             _logger = LogManager.GetLogger(type.ToString());
         }
