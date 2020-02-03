@@ -59,14 +59,21 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fixtures\CoreConsole\CoreConsoleTestFixture.cs" />
+    <Compile Include="Fixtures\AutoCad\AutoCadTestFixture.cs" />
+    <Compile Include="Fixtures\Civil3d\Civil3dFixtureArguments.cs" />
+    <Compile Include="Fixtures\Civil3d\Civil3dTestFixture.cs" />
+    <Compile Include="Fixtures\AutoCad\AutoCadFixtureArguments.cs" />
+    <Compile Include="Fixtures\CoreConsole\CoreConsoleFixtureArguments.cs" />
     <Compile Include="FileLogger.cs" />
+    <Compile Include="Fixtures\Base\BaseFixtureArguments.cs" />
     <Compile Include="Serialization\CommandMessage.cs" />
     <Compile Include="Serialization\DeserializationBinder.cs" />
     <Compile Include="Pipe\Client.cs" />
     <Compile Include="Pipe\Listener.cs" />
     <Compile Include="Pipe\Server.cs" />
-    <Compile Include="BaseNUnitTestFixture.cs" />
-    <Compile Include="CoreConsoleRunner.cs" />
+    <Compile Include="Fixtures\Base\BaseTestFixture.cs" />
+    <Compile Include="Runner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -76,7 +83,6 @@
     <Compile Include="Serialization\RequestStart.cs" />
     <Compile Include="Serialization\RequestTest.cs" />
     <Compile Include="Serialization\ResponseTest.cs" />
-    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -87,6 +93,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

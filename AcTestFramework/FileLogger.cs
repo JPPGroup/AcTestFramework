@@ -6,7 +6,7 @@ namespace Jpp.AcTestFramework
 {
     public class FileLogger : IDisposable
     {
-        public enum LogType { Client, Server, Console }
+        public enum LogType { TestFixture, Server, Runner }
 
         private const string FILE_NAME = "AcTests.[TYPE].log";
         private readonly Logger _logger;

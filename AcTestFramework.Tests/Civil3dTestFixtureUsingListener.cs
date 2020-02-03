@@ -5,9 +5,14 @@ using NUnit.Framework;
 
 namespace AcTestFramework.Tests
 {
-    public class TestFixtureUsingListenerWithoutDrawing : BaseNUnitTestFixture
+    public class Civil3dTestFixtureUsingListener : Civil3dTestFixture
     {
-        public TestFixtureUsingListenerWithoutDrawing() : base(Assembly.GetExecutingAssembly(), typeof(TestFixtureUsingListenerWithoutDrawing)) { }
+        public Civil3dTestFixtureUsingListener()
+            : base(new Civil3dFixtureArguments(Assembly.GetExecutingAssembly(),
+                typeof(Civil3dTestFixtureUsingListener), ""))
+        {
+
+        }
 
         [Test]
         public void TestMethod_SubtractTwoValues()
