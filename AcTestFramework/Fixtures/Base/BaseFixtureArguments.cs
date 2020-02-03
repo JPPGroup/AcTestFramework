@@ -16,7 +16,7 @@ namespace Jpp.AcTestFramework
         public string InitialLibrary { get; }
 
         public string DrawingFile { get; set; } = "";
-        public bool IsDebug { get; set; } = false;
+        public bool IsDebug { get; set; } = true;
         public int ClientTimeout { get; set; } = 4000;
 
         public string AssemblyPath => FixtureAssembly.Location;

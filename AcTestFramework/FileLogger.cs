@@ -20,16 +20,21 @@ namespace Jpp.AcTestFramework
 
             var config = LogManager.Configuration ?? new NLog.Config.LoggingConfiguration();
 
-            var target = new NLog.Targets.FileTarget
+            var target = config.FindTargetByName(type.ToString());
+            if (target == null)
             {
-                Name = type.ToString(),
-                FileName = filePath, 
-                KeepFileOpen = false, 
-                ArchiveAboveSize = 1000000, 
-                MaxArchiveFiles = 10
-            };
+                target = new NLog.Targets.FileTarget
+                {
+                    Name = type.ToString(),
+                    FileName = filePath,
+                    KeepFileOpen = false,
+                    ArchiveAboveSize = 1000000,
+                    MaxArchiveFiles = 10
+                };
 
-            config.AddRule(LogLevel.Trace, LogLevel.Fatal, target, type.ToString());
+                config.AddRule(LogLevel.Trace, LogLevel.Fatal, target, type.ToString());
+            }
+            
             LogManager.Configuration = config;
             _logger = LogManager.GetLogger(type.ToString());
         }

@@ -124,6 +124,7 @@ _NETLOAD "&lt;DLLPATH&gt;"
 &lt;DEBUG&gt;
 &lt;TESTGUID&gt;
 _SECURELOAD 1
+_QUIT
 </value>
     <comment>Loads core and test lib, then invokes listener command.</comment>
   </data>

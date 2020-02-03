@@ -33,7 +33,7 @@ namespace Jpp.AcTestFramework
 
         internal void Run()
         {
-            logger.Entry("Process starting");
+            logger.Entry("Process starting...");
 
             if (!File.Exists(arguments.ApplicationPath)) throw new ArgumentException("Location of application exe not found.");
             
@@ -54,6 +54,7 @@ namespace Jpp.AcTestFramework
 
         internal void Stop()
         {
+            logger.Entry("Process stopping...");
             Thread.Sleep(TimeSpan.FromSeconds(arguments.WaitBeforeKillSeconds));
             if (processId > 0) KillProcess();
 
@@ -205,9 +206,11 @@ namespace Jpp.AcTestFramework
 
         private string C3dString(bool hasDrawing)
         {
+            var dir = Path.GetDirectoryName(arguments.ApplicationPath);
+            var aecBase = Path.Combine(dir ?? throw new ArgumentNullException(nameof(dir)), "AecBase.dbx");
             return hasDrawing
-                ? $"/P AutoCAD /Product \"C3D\" /language en-gb \"{tempDrawingFile}\" /b \"{tempScriptFile}\""
-                : $"/P AutoCAD /Product \"C3D\" /language en-gb /t \"No Template - Metric\"  /b \"{tempScriptFile}\"";
+                ? $"/ld \"{aecBase}\" /p \"<<C3D_Metric>>\" /Product \"C3D\" /language en-gb \"{tempDrawingFile}\" /b \"{tempScriptFile}\""
+                : $"/ld \"{aecBase}\" /p \"<<C3D_Metric>>\" /Product \"C3D\" /language en-gb /t \"No Template - Metric\"  /b \"{tempScriptFile}\"";
         }
     }
 }
