@@ -10,5 +10,6 @@ namespace Jpp.AcTestFramework
         }
 
         public override AppTypes AppType { get; } = AppTypes.Civil3d;
+        public override int ClientTimeout { get; set; } = 8000;
     }
 }

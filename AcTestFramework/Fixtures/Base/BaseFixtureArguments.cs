@@ -17,8 +17,7 @@ namespace Jpp.AcTestFramework
 
         public string DrawingFile { get; set; } = "";
         public bool IsDebug { get; set; } = true;
-        public int ClientTimeout { get; set; } = 4000;
-
+        
         public string AssemblyPath => FixtureAssembly.Location;
         public string AssemblyType => FixtureType.FullName;
         public string Directory => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -26,10 +25,12 @@ namespace Jpp.AcTestFramework
 
         public abstract string ApplicationPath { get;}
         public abstract AppTypes AppType { get; }
+
         public virtual int WaitForExitMilliseconds { get; } = 1000;
         public virtual int WaitBeforeKillSeconds { get; } = 1;
         public virtual bool DisplayWindow { get; } = false;
-        
+        public virtual int ClientTimeout { get; set; } = 4000;
+
         protected BaseFixtureArguments(Assembly fixtureAssembly, Type fixtureType, string initialLibrary)
         {
             FixtureAssembly = fixtureAssembly ?? throw new ArgumentNullException(nameof(fixtureAssembly));
