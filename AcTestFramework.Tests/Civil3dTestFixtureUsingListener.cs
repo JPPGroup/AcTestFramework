@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace AcTestFramework.Tests
 {
+    [TestFixture]
     public class Civil3dTestFixtureUsingListener : Civil3dTestFixture
     {
         public Civil3dTestFixtureUsingListener()

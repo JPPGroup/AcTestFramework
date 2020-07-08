@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace AcTestFramework.Tests
 {
+    [TestFixture]
     public class CoreTestFixtureUsingListener : CoreConsoleTestFixture
     {
         public CoreTestFixtureUsingListener()

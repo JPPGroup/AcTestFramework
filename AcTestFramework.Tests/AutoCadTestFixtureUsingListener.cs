@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 namespace AcTestFramework.Tests
 {
+    [TestFixture]
     public class AutoCadTestFixtureUsingListener : AutoCadTestFixture
     {
         public AutoCadTestFixtureUsingListener()
