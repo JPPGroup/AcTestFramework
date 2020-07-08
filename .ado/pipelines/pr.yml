@@ -50,4 +50,3 @@ jobs:
         !**\obj\**
       searchFolder: '$(System.DefaultWorkingDirectory)'
       uiTests: true
-      codeCoverageEnabled: true
