@@ -23,11 +23,13 @@ jobs:
   - checkout: self    
     clean: true
     fetchDepth: 1
+  - task: NuGetToolInstaller@1
+    inputs:      
+      checkLatest: true
   - task: NuGetCommand@2
     inputs:
       command: 'restore'
-      restoreSolution: 'Ironstone-Meta.sln'
-      feedsToUse: 'config'
+      restoreSolution: 'AcTestFramework.sln'      
       noCache: true
   - task: VSBuild@1
     inputs:
