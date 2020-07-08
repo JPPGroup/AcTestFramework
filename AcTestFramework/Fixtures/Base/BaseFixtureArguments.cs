@@ -8,9 +8,21 @@ namespace Jpp.AcTestFramework
 
     public abstract class BaseFixtureArguments
     {
+#if Ac2019
         protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2019\acad.exe";
         protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
+#endif
 
+#if Ac2020
+        protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2020\acad.exe";
+        protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2020\accoreconsole.exe";
+#endif
+
+#if Ac2021
+        protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2021\acad.exe";
+        protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2021\accoreconsole.exe";
+#endif
+        
         public Assembly FixtureAssembly { get; }
         public Type FixtureType { get; }
         public string InitialLibrary { get; }
