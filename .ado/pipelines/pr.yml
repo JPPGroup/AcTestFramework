@@ -50,3 +50,4 @@ jobs:
         !**\obj\**
       searchFolder: '$(System.DefaultWorkingDirectory)'
       uiTests: true
+      otherConsoleOptions: '/platform:x64'
