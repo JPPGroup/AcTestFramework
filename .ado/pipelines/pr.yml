@@ -37,6 +37,10 @@ jobs:
       platform: 'x64'
       configuration: 'Release'
       clean: true
+  - task: VisualStudioTestPlatformInstaller@1
+    inputs:
+      packageFeedSelector: 'nugetOrg'
+      versionSelector: 'latestPreRelease'
   - task: VSTest@2
     inputs:
       testSelector: 'testAssemblies'
