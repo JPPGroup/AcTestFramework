@@ -1,0 +1,47 @@
+trigger:
+- master
+- features/*
+- bugfixes/*
+
+pr:
+- master
+
+jobs:
+- job: Test
+  strategy:
+    matrix:     
+      2021:
+        poolFlag: 2021
+      2020:
+        poolFlag: 2020
+  timeoutInMinutes: 10
+  pool:
+    name: Autodesk
+    demands: Civil3d  -equals $(poolFlag)
+    
+  steps:
+  - checkout: self    
+    clean: true
+    fetchDepth: 1
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: 'Ironstone-Meta.sln'
+      feedsToUse: 'config'
+      noCache: true
+  - task: VSBuild@1
+    inputs:
+      solution: 'AcTestFramework.sln'
+      platform: 'x64'
+      configuration: 'Release'
+      clean: true
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: |
+        **\*test*.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      uiTests: true
+      codeCoverageEnabled: true

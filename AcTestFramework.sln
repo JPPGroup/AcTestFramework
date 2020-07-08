@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcTestFramework", "AcTestFramework\AcTestFramework.csproj", "{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcTestFramework", "AcTestFramework\AcTestFramework.csproj", "{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcTestFramework.Tests", "AcTestFramework.Tests\AcTestFramework.Tests.csproj", "{36984A10-3A18-4108-A155-ADBEB2DB8F97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcTestFramework.Tests", "AcTestFramework.Tests\AcTestFramework.Tests.csproj", "{36984A10-3A18-4108-A155-ADBEB2DB8F97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.ActiveCfg = Debug|x64
-		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.Build.0 = Debug|x64
-		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.ActiveCfg = Release|x64
-		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.Build.0 = Release|x64
-		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.ActiveCfg = Debug|x64
-		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.Build.0 = Debug|x64
-		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.ActiveCfg = Release|x64
-		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.Build.0 = Release|x64
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Debug|x64.Build.0 = Debug|Any CPU
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.ActiveCfg = Release|Any CPU
+		{57FFF57B-DB65-4D5A-BF36-A93B7D8165E4}.Release|x64.Build.0 = Release|Any CPU
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Debug|x64.Build.0 = Debug|Any CPU
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.ActiveCfg = Release|Any CPU
+		{36984A10-3A18-4108-A155-ADBEB2DB8F97}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
