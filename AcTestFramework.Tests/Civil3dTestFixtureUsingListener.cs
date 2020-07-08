@@ -10,7 +10,7 @@ namespace AcTestFramework.Tests
     {
         public Civil3dTestFixtureUsingListener()
             : base(new Civil3dFixtureArguments(Assembly.GetExecutingAssembly(),
-                typeof(Civil3dTestFixtureUsingListener), ""))
+                typeof(Civil3dTestFixtureUsingListener), "") { ClientTimeout = 240000 })
         {
 
         }

@@ -10,7 +10,7 @@ namespace AcTestFramework.Tests
     {
         public AutoCadTestFixtureUsingListener()
             : base(new AutoCadFixtureArguments(Assembly.GetExecutingAssembly(),
-                typeof(AutoCadTestFixtureUsingListener), ""))
+                typeof(AutoCadTestFixtureUsingListener), "") { ClientTimeout = 240000 })
         {
 
         }
