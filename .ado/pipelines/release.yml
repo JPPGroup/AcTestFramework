@@ -62,7 +62,7 @@ jobs:
       
 - job: Deploy
   pool:
-    name: windows-latest
+    vmImage: 'windows-latest'
   steps:
   - task: NuGetToolInstaller@1
     inputs:      
