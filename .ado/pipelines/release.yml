@@ -60,7 +60,9 @@ jobs:
       configuration: 'Release $(poolFlag)'
       versioningScheme: 'off'      
       
--job: Deploy
+- job: Deploy
+  pool:
+    name: windows-latest
   steps:
   - task: NuGetToolInstaller@1
     inputs:      
