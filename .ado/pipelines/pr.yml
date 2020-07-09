@@ -1,7 +1,11 @@
 trigger:
-- master
-- features/*
-- bugfixes/*
+  branches:
+  - master
+  - features/*
+  - bugfixes/*
+  tags:
+    exclude:    
+    - v*   
 
 pr:
 - master

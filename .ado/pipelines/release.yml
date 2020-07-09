@@ -56,20 +56,25 @@ jobs:
       packagesToPack: 'AcTestFramework/AcTestFramework.csproj'
       configuration: 'Release $(poolFlag)'
       versioningScheme: 'off'      
-      buildProperties: 'PackageId=AcTestFramework.$(poolFlag)'
+      buildProperties: 'Id=AcTestFramework.$(poolFlag)'  
+  - publish: $(Build.ArtifactStagingDirectory)
+    artifact: Nuget $(poolFlag)
+
       
 - job: Deploy
   dependsOn: BuildTest
   pool:
     vmImage: 'windows-latest'
   steps:
+  - checkout: none
+  - download: current
   - task: NuGetToolInstaller@1
     inputs:      
       checkLatest: true
   - task: NuGetCommand@2
     inputs:
       command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Worksapce)/**/*.symbols.nupkg'
       nuGetFeedType: 'external'
       publishFeedCredentials: 'GitHub Package Repo'
   - task: GitHubRelease@1
@@ -79,7 +84,7 @@ jobs:
       action: 'create'
       target: '$(Build.SourceVersion)'
       tagSource: 'gitTag'
-      tagPattern: 'v*'
+      tagPattern: '*'
       releaseNotesSource: 'inline'
       releaseNotesInline: 'Latest version'
       isDraft: true
