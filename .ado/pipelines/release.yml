@@ -58,6 +58,7 @@ jobs:
       versioningScheme: 'off'      
       
 - job: Deploy
+  dependsOn: BuildTest
   pool:
     vmImage: 'windows-latest'
   steps:
