@@ -8,16 +8,13 @@
     <Version>3.0.0</Version>  
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2019'))">
-    <AcVersion>2019</AcVersion>
-	<PackageId>AcTestFramework.2019</PackageId>
+    <AcVersion>2019</AcVersion>	
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2020'))">
-    <AcVersion>2020</AcVersion>
-	<PackageId>AcTestFramework.2020</PackageId>
+    <AcVersion>2020</AcVersion>	
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2021'))">
-    <AcVersion>2021</AcVersion>
-	<PackageId>AcTestFramework.2021</PackageId>
+    <AcVersion>2021</AcVersion>	
   </PropertyGroup>
   <PropertyGroup>
     <!-- Define handy symbols to use in the code in order to accommodate different Revit versions,

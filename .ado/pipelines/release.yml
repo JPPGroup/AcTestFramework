@@ -56,6 +56,7 @@ jobs:
       packagesToPack: 'AcTestFramework/AcTestFramework.csproj'
       configuration: 'Release $(poolFlag)'
       versioningScheme: 'off'      
+      buildProperties: 'PackageId=AcTestFramework.$(poolFlag)'
       
 - job: Deploy
   dependsOn: BuildTest
