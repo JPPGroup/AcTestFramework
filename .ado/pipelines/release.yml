@@ -1,0 +1,87 @@
+trigger:
+  branches:
+    include:
+    - master    
+  tags:
+    include:    
+    - v*   
+
+pr: none
+
+jobs:
+- job: Build and Test
+  strategy:
+    matrix:     
+      2021:
+        poolFlag: 2021
+      2020:
+        poolFlag: 2020
+  timeoutInMinutes: 10
+  pool:
+    name: Autodesk
+    demands: Civil3d  -equals $(poolFlag)
+    
+  steps:
+  - checkout: self    
+    clean: true
+    fetchDepth: 1
+  - task: NuGetToolInstaller@1
+    inputs:      
+      checkLatest: true
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: 'AcTestFramework.sln'      
+      noCache: true
+  - task: VSBuild@1
+    inputs:
+      solution: 'AcTestFramework.sln'
+      platform: 'x64'
+      configuration: 'Release $(poolFlag)'
+      clean: true
+  - task: VisualStudioTestPlatformInstaller@1
+    inputs:
+      packageFeedSelector: 'nugetOrg'
+      versionSelector: 'latestPreRelease'
+  - task: VSTest@2
+    inputs:
+      testSelector: 'testAssemblies'
+      testAssemblyVer2: |
+        **\*Tests*.dll
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: '$(System.DefaultWorkingDirectory)'
+      uiTests: true
+      otherConsoleOptions: '/platform:x64'
+  - task: NuGetCommand@2
+    inputs:
+      command: 'pack'
+      packagesToPack: 'AcTestFramework/AcTestFramework.csproj'
+      configuration: 'Release $(poolFlag)'
+      versioningScheme: 'off'      
+      
+-job: Deploy
+  steps:
+  - task: NuGetToolInstaller@1
+    inputs:      
+      checkLatest: true
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'external'
+      publishFeedCredentials: 'GitHub Package Repo'
+  - task: GitHubRelease@1
+    inputs:
+      gitHubConnection: 'Github'
+      repositoryName: 'JPPGroup/AcTestFramework'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'gitTag'
+      tagPattern: 'v*'
+      releaseNotesSource: 'inline'
+      releaseNotesInline: 'Latest version'
+      isDraft: true
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'
+      assets: 
