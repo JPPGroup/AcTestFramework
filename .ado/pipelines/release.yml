@@ -55,8 +55,8 @@ jobs:
       command: 'pack'
       packagesToPack: 'AcTestFramework/AcTestFramework.csproj'
       configuration: 'Release $(poolFlag)'
-      versioningScheme: 'off'      
-      
+      versioningScheme: 'off'     
+      buildProperties: 'PackageId=AcTestFramework.$(poolFlag)'  
 - job: Deploy
   pool:
     vmImage: 'windows-latest'
