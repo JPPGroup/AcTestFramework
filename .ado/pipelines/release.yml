@@ -9,7 +9,7 @@ trigger:
 pr: none
 
 jobs:
-- job: Build and Test
+- job: BuildTest
   strategy:
     matrix:     
       2021:
