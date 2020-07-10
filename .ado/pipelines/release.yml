@@ -84,7 +84,7 @@ jobs:
       action: 'create'
       target: '$(Build.SourceVersion)'
       tagSource: 'gitTag'
-      tagPattern: '*'
+      tagPattern: 'v.*'
       releaseNotesSource: 'inline'
       releaseNotesInline: 'Latest version'
       isDraft: true
