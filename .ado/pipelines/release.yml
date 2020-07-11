@@ -56,7 +56,7 @@ jobs:
       packagesToPack: 'AcTestFramework/AcTestFramework.csproj'
       configuration: 'Release $(poolFlag)'
       versioningScheme: 'off'      
-      buildProperties: 'Id=AcTestFramework.$(poolFlag)'  
+      buildProperties: 'Id=JPP.AcTestFramework.$(poolFlag)'  
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: Nuget $(poolFlag)
 
@@ -90,4 +90,4 @@ jobs:
       isDraft: true
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'
-      assets: 
+      assets: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Worksapce)/**/*.symbols.nupkg'
