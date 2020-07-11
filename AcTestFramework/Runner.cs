@@ -199,9 +199,15 @@ namespace Jpp.AcTestFramework
 
         private string FullString(bool hasDrawing)
         {
+#if Ac2021
+            return hasDrawing
+                ? $"/P AutoCad /product ACAD /language en-gb \"{tempDrawingFile}\" /b \"{tempScriptFile}\""
+                : $"/P AutoCad /product ACAD /language en-gb  /t \"No Template - Metric\" /b \"{tempScriptFile}\"";
+#else 
             return hasDrawing
                 ? $"/product ACAD /language en-gb \"{tempDrawingFile}\" /b \"{tempScriptFile}\""
                 : $"/product ACAD /language en-gb  /t \"No Template - Metric\" /b \"{tempScriptFile}\"";
+#endif
         }
 
         private string C3dString(bool hasDrawing)
