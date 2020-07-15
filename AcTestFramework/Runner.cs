@@ -35,7 +35,7 @@ namespace Jpp.AcTestFramework
         {
             logger.Entry("Process starting...");
 
-            if (!File.Exists(arguments.ApplicationPath)) throw new ArgumentException("Location of application exe not found.");
+            if (!File.Exists(arguments.ApplicationPath)) throw new ArgumentException($"Location of application exe not found - searched for {arguments.ApplicationPath}");
             
             GenerateFiles();
 
