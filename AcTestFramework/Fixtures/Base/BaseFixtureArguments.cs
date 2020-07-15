@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Security;
 using Microsoft.Win32;
 
 namespace Jpp.AcTestFramework
@@ -59,11 +60,28 @@ namespace Jpp.AcTestFramework
 
         protected string GetPath()
         {
-            string keyPath = $"Software\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
+            string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
 
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(keyPath))
+            try
             {
-                return (string)rk.GetValue("AcadLocation");
+                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(keyPath))
+                {
+                    if (rk == null)
+                        throw new NullReferenceException($"Registry key {keyPath} not found");
+
+                    string result = (string)rk.GetValue("AcadLocation", null);
+
+                    if (string.IsNullOrEmpty(result))
+                        throw new NullReferenceException($"Key AcadLocation not found");
+
+                    return result;
+                }
+            }
+            catch (SecurityException e)
+            {
+                Console.WriteLine("Unable to access registry.");
+                Console.WriteLine(e);
+                throw;
             }
         }
     }
