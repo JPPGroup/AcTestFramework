@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Security;
 using Microsoft.Win32;
@@ -16,16 +17,19 @@ namespace Jpp.AcTestFramework
 #if Ac2019
         protected const string RELEASE = "R23.0";
         protected const string VERSION_ID = "ACAD-2001";
+        protected const string CIV_VERSION_ID = "ACAD-2000";
 #endif
 
 #if Ac2020
         protected const string RELEASE = "R23.1";
         protected const string VERSION_ID = "ACAD-3001";
+        protected const string CIV_VERSION_ID = "ACAD-3000";
 #endif
 
 #if Ac2021
         protected const string RELEASE = "R24.0";
         protected const string VERSION_ID = "ACAD-4101";
+        protected const string CIV_VERSION_ID = "ACAD-4000";
 #endif
 
         public Assembly FixtureAssembly { get; }
@@ -61,20 +65,31 @@ namespace Jpp.AcTestFramework
         protected string GetPath()
         {
             string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
+            string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:409";
 
             try
             {
                 using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(keyPath))
                 {
+                    if (rk != null)
+                    {
+                        string result = (string) rk.GetValue("AcadLocation", null);
+
+                        if (!string.IsNullOrEmpty(result))
+                            return result;
+                    }
+                }
+                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(civilKeyPath))
+                {
                     if (rk == null)
-                        throw new NullReferenceException($"Registry key {keyPath} not found");
+                        throw new NullReferenceException($"Registry key {civilKeyPath} not found");
 
                     string result = (string)rk.GetValue("AcadLocation", null);
 
-                    if (string.IsNullOrEmpty(result))
-                        throw new NullReferenceException($"Key AcadLocation not found");
+                    if (!string.IsNullOrEmpty(result))
+                        return result;
 
-                    return result;
+                    throw new NullReferenceException($"Key AcadLocation not found");
                 }
             }
             catch (SecurityException e)
