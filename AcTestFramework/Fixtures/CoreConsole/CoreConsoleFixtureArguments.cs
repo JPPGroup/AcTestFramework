@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Jpp.AcTestFramework
 {
@@ -11,9 +7,10 @@ namespace Jpp.AcTestFramework
     {
         public CoreConsoleFixtureArguments(Assembly fixtureAssembly, Type fixtureType, string initialLibrary) : base(fixtureAssembly, fixtureType, initialLibrary)
         {
+            ApplicationPath = $"{GetPath()}\\{CORE_EXE}";
         }
 
-        public override string ApplicationPath { get; } = CORE_PATH;
+        public override string ApplicationPath { get; }
         public override AppTypes AppType { get; } = AppTypes.CoreConsole;
     }
 }

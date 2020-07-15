@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.Win32;
 
 namespace Jpp.AcTestFramework
 {
@@ -8,21 +9,24 @@ namespace Jpp.AcTestFramework
 
     public abstract class BaseFixtureArguments
     {
+        protected const string ACAD_EXE = @"acad.exe";
+        protected const string CORE_EXE = @"accoreconsole.exe";
+
 #if Ac2019
-        protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2019\acad.exe";
-        protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2019\accoreconsole.exe";
+        protected const string RELEASE = "R23.0";
+        protected const string VERSION_ID = "ACAD-2001";
 #endif
 
 #if Ac2020
-        protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2020\acad.exe";
-        protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2020\accoreconsole.exe";
+        protected const string RELEASE = "R23.1";
+        protected const string VERSION_ID = "ACAD-3001";
 #endif
 
 #if Ac2021
-        protected const string ACAD_PATH = @"C:\Program Files\Autodesk\AutoCAD 2021\acad.exe";
-        protected const string CORE_PATH = @"C:\Program Files\Autodesk\AutoCAD 2021\accoreconsole.exe";
+        protected const string RELEASE = "R24.0";
+        protected const string VERSION_ID = "ACAD-4101";
 #endif
-        
+
         public Assembly FixtureAssembly { get; }
         public Type FixtureType { get; }
         public string InitialLibrary { get; }
@@ -51,6 +55,16 @@ namespace Jpp.AcTestFramework
             InitialLibrary = string.IsNullOrEmpty(initialLibrary) 
                 ? "" 
                 : Path.Combine(Directory ?? throw new ArgumentNullException(nameof(Directory)), initialLibrary);
+        }
+
+        protected string GetPath()
+        {
+            string keyPath = $"Software\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
+
+            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(keyPath))
+            {
+                return (string)rk.GetValue("AcadLocation");
+            }
         }
     }
 }
