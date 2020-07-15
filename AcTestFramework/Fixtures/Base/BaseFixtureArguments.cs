@@ -29,7 +29,7 @@ namespace Jpp.AcTestFramework
 #if Ac2021
         protected const string RELEASE = "R24.0";
         protected const string VERSION_ID = "ACAD-4101";
-        protected const string CIV_VERSION_ID = "ACAD-4000";
+        protected const string CIV_VERSION_ID = "ACAD-4100";
 #endif
 
         public Assembly FixtureAssembly { get; }
