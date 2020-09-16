@@ -69,7 +69,8 @@ namespace Jpp.AcTestFramework
 
             try
             {
-                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(keyPath))
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                using (RegistryKey rk = hklm.OpenSubKey(keyPath))
                 {
                     if (rk != null)
                     {
@@ -79,7 +80,8 @@ namespace Jpp.AcTestFramework
                             return result;
                     }
                 }
-                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(civilKeyPath))
+                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                using (RegistryKey rk = hklm.OpenSubKey(civilKeyPath))
                 {
                     if (rk == null)
                         throw new NullReferenceException($"Registry key {civilKeyPath} not found");

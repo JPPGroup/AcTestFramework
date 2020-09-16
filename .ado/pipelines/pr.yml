@@ -31,11 +31,35 @@ jobs:
   - task: NuGetToolInstaller@1
     inputs:      
       checkLatest: true
-  - task: NuGetCommand@2
+  - task: DownloadSecureFile@1
+    name: nconf
+    displayName: 'Download Nuget Config'
+    inputs:
+      secureFile: 'nuget.config'
+  - script: |
+      echo Moving $(nconf.secureFilePath) to the root directory $(System.DefaultWorkingDirectory)...
+      xcopy $(nconf.secureFilePath) $(System.DefaultWorkingDirectory)      
+      
+  - task: DownloadSecureFile@1
+    name: Cert
+    displayName: 'Download Certificate'
+    inputs:
+      secureFile: 'CodeSigning2019.pfx'      
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $Secure_String_Pwd = ConvertTo-SecureString "Cedarbarn123" -AsPlainText -Force
+        Import-PfxCertificate -FilePath $(Cert.secureFilePath) -CertStoreLocation Cert:\LocalMachine\My -Password $Secure_String_Pwd               
+      
+  - task: DotNetCoreCLI@2
     inputs:
       command: 'restore'
-      restoreSolution: 'AcTestFramework.sln'      
-      noCache: true
+      projects: 'AcTestFramework.sln'   
+      feedsToUse: 'config'
+      nugetConfigPath: 'nuget.config'
+      verbosityRestore: 'Normal'
+      noCache: true   
   - task: VSBuild@1
     inputs:
       solution: 'AcTestFramework.sln'
