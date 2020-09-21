@@ -7,4 +7,7 @@
 	  <description>Framework for testing software against Autodesk AutoCad verticals</description>
 	  <repository type="git" url="https://github.com/JPPGroup/AcTestFramework" />
 	</metadata>
+	<files>
+      <file src="bin\$configuration$\*.pdb" target="lib\net472\" />
+    </files>
 </package>

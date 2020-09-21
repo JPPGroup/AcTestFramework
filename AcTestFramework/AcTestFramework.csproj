@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">  
   <PropertyGroup>       
-    <RootNamespace>Jpp.AcTestFramework</RootNamespace>
-    <AssemblyName>AcTestFramework</AssemblyName>
+    <RootNamespace>Jpp.AcTestFramework</RootNamespace>    
     <TargetFramework>net472</TargetFramework>
     <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021</Configurations>	
 	<NuspecFile>AcTestFramework.nuspec</NuspecFile>    
@@ -22,6 +21,7 @@
     <DefineConstants Condition="$(Configuration.Contains('Debug'))">TRACE;DEBUG;Ac$(AcVersion)</DefineConstants>
     <DefineConstants Condition="$(Configuration.Contains('Release'))">Ac$(AcVersion)</DefineConstants>
     <PreprocessorDefinitions>$(DefineConstants)</PreprocessorDefinitions>
+	<AssemblyName>AcTestFramework.$(AcVersion)</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
