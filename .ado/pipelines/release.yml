@@ -94,13 +94,10 @@ jobs:
   - download: current
   - task: NuGetToolInstaller@1
     inputs:      
-      checkLatest: true
-  - task: NuGetCommand@2
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Worksapce)/**/*.symbols.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'GitHub Package Repo'
+      checkLatest: true  
+  - script: |
+      dotnet nuget add source https://nuget.pkg.github.com/jppgroup/index.json --name "github" --username jppgroup --password $(GithubPAT) --store-password-in-clear-text
+      dotnet nuget push "$(Pipeline.Workspace)\**\*.nupkg" --source "github" --skip-duplicate   
   - task: GitHubRelease@1
     inputs:
       gitHubConnection: 'Github'
