@@ -2,8 +2,6 @@ trigger:
   branches:
     include:
     - master
-    - features/*
-    - bugfixes/*
   tags:
     exclude:    
     - v*   
