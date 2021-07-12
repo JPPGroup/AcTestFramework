@@ -32,6 +32,12 @@ namespace Jpp.AcTestFramework
         protected const string CIV_VERSION_ID = "ACAD-4100";
 #endif
 
+#if Ac2022
+        protected const string RELEASE = "R24.1";
+        protected const string VERSION_ID = "ACAD-5101";
+        protected const string CIV_VERSION_ID = "ACAD-5100";
+#endif
+
         public Assembly FixtureAssembly { get; }
         public Type FixtureType { get; }
         public string InitialLibrary { get; }
@@ -64,8 +70,13 @@ namespace Jpp.AcTestFramework
 
         protected string GetPath()
         {
+#if Ac2022
+            string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:809";
+            string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:809";
+#else
             string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
             string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:409";
+#endif
 
             try
             {

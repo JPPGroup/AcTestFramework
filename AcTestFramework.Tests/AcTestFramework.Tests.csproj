@@ -4,7 +4,7 @@
     <TargetFramework>net472</TargetFramework>    
     <RootNamespace>AcTestFramework.Tests</RootNamespace>
     <AssemblyName>AcTestFramework.Tests</AssemblyName>
-    <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021</Configurations>
+    <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021;Debug 2022;Release 2022</Configurations>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2019'))">
     <AcVersion>2019</AcVersion>
@@ -14,6 +14,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2021'))">
     <AcVersion>2021</AcVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2021'))">
+    <AcVersion>2022</AcVersion>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Define handy symbols to use in the code in order to accommodate different Revit versions,
