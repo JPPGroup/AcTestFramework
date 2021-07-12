@@ -70,40 +70,42 @@ namespace Jpp.AcTestFramework
 
         protected string GetPath()
         {
-#if Ac2022
-            string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:809";
-            string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:809";
-#else
-            string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:409";
-            string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:409";
-#endif
+            string[] localeid = { "409", "809" };
 
             try
             {
-                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-                using (RegistryKey rk = hklm.OpenSubKey(keyPath))
+                foreach (string locale in localeid)
                 {
-                    if (rk != null)
-                    {
-                        string result = (string) rk.GetValue("AcadLocation", null);
+                    string keyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{VERSION_ID}:{locale}";
+                    string civilKeyPath = $"SOFTWARE\\Autodesk\\AutoCAD\\{RELEASE}\\{CIV_VERSION_ID}:{locale}";
 
-                        if (!string.IsNullOrEmpty(result))
-                            return result;
+                    using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                    using (RegistryKey rk = hklm.OpenSubKey(keyPath))
+                    {
+                        if (rk != null)
+                        {
+                            string result = (string) rk.GetValue("AcadLocation", null);
+
+                            if (!string.IsNullOrEmpty(result))
+                                return result;
+                        }
+                    }
+
+                    using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                    using (RegistryKey rk = hklm.OpenSubKey(civilKeyPath))
+                    {
+                        if (rk != null)
+                        {
+
+                            string result = (string) rk.GetValue("AcadLocation", null);
+
+                            if (!string.IsNullOrEmpty(result))
+                                return result;
+                        }
                     }
                 }
-                using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-                using (RegistryKey rk = hklm.OpenSubKey(civilKeyPath))
-                {
-                    if (rk == null)
-                        throw new NullReferenceException($"Registry key {civilKeyPath} not found");
 
-                    string result = (string)rk.GetValue("AcadLocation", null);
-
-                    if (!string.IsNullOrEmpty(result))
-                        return result;
-
-                    throw new NullReferenceException($"Key AcadLocation not found");
-                }
+                throw new NullReferenceException($"Key AcadLocation not found");
             }
             catch (SecurityException e)
             {
