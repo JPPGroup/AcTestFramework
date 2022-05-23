@@ -199,7 +199,7 @@ namespace Jpp.AcTestFramework
 
         private string FullString(bool hasDrawing)
         {
-#if Ac2022 || Ac2021 || Ac2020
+#if Ac2023 || Ac2022 || Ac2021 || Ac2020 
             return hasDrawing
                 ? $"/P AutoCad /product ACAD /language en-gb \"{tempDrawingFile}\" /b \"{tempScriptFile}\""
                 : $"/P AutoCad /product ACAD /language en-gb  /t \"No Template - Metric\" /b \"{tempScriptFile}\"";

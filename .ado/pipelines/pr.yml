@@ -12,13 +12,13 @@ pr:
 jobs:
 - job: Test
   strategy:
-    matrix:     
+    matrix:    
+      2023:
+        poolFlag: 2023    
       2022:
         poolFlag: 2022
       2021:
-        poolFlag: 2021
-      2020:
-        poolFlag: 2020
+        poolFlag: 2021      
   timeoutInMinutes: 10
   pool:
     name: Autodesk

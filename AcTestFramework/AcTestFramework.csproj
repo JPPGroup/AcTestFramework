@@ -3,7 +3,7 @@
   <PropertyGroup>       
     <RootNamespace>Jpp.AcTestFramework</RootNamespace>    
     <TargetFramework>net472</TargetFramework>
-    <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021;Debug 2022;Release 2022</Configurations>	
+    <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021;Debug 2022;Release 2022;Debug 2023;Release 2023</Configurations>	
 	<NuspecFile>AcTestFramework.nuspec</NuspecFile>    
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2019'))">
@@ -17,6 +17,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2022'))">
     <AcVersion>2022</AcVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(Configuration.Contains('2023'))">
+		<AcVersion>2023</AcVersion>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Define handy symbols to use in the code in order to accommodate different Revit versions,
@@ -44,6 +47,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+	<ItemGroup Condition="$(Configuration.Contains('2023'))">
+		<PackageReference Include="Jpp.Ironstone.BaseApi.2023">
+			<Version>1.0.0</Version>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
   <ItemGroup Condition="$(Configuration.Contains('2022'))">
     <PackageReference Include="Jpp.Ironstone.BaseApi.2022">
       <Version>1.0.0</Version>

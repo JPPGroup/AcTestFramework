@@ -38,6 +38,12 @@ namespace Jpp.AcTestFramework
         protected const string CIV_VERSION_ID = "ACAD-5100";
 #endif
 
+#if Ac2023
+        protected const string RELEASE = "R24.2";
+        protected const string VERSION_ID = "ACAD-6101";
+        protected const string CIV_VERSION_ID = "ACAD-6100";
+#endif
+
         public Assembly FixtureAssembly { get; }
         public Type FixtureType { get; }
         public string InitialLibrary { get; }
