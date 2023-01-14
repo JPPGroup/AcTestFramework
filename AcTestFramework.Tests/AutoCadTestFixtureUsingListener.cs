@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using Autodesk.AutoCAD.ApplicationServices.Core;
+using Autodesk.Civil.DatabaseServices;
+using Autodesk.Windows;
+using JetBrains.dotMemoryUnit.Properties;
 using Jpp.AcTestFramework;
 using NUnit.Framework;
 
@@ -9,7 +13,7 @@ namespace AcTestFramework.Tests
     public class AutoCadTestFixtureUsingListener : AutoCadTestFixture
     {
         public AutoCadTestFixtureUsingListener()
-            : base(new AutoCadFixtureArguments(Assembly.GetExecutingAssembly(),
+            : base(new AutoCadFixtureArguments(System.Reflection.Assembly.GetExecutingAssembly(),
                 typeof(AutoCadTestFixtureUsingListener), "") { ClientTimeout = 240000 })
         {
 
@@ -121,6 +125,41 @@ namespace AcTestFramework.Tests
             var charArray = s.ToCharArray();
             Array.Reverse(charArray);
             return new string(charArray);
+        }
+
+        [Test]
+        public void TestMethod_AccessDrawingName()
+        {
+            var response = RunTest<string>(nameof(Method_AccessDrawingName));
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(response));
+        }
+
+        public static string Method_AccessDrawingName()
+        {
+            return Application.DocumentManager.MdiActiveDocument.Name;
+        }
+
+        [Test]
+        public void TestMethod_AddTabs()
+        {
+            var response = RunTest<bool>(nameof(Method_AddTabs));
+            Assert.IsTrue(response);
+        }
+
+        public static bool Method_AddTabs()
+        {
+            RibbonControl rc = ComponentManager.Ribbon;
+
+            var _generalTab = new RibbonTab
+            {
+                Name = "Test title",
+                Title = "Test title",
+                Id = "Gen"
+            };
+
+            rc.Tabs.Add(_generalTab);
+
+            return true;
         }
     }
 }

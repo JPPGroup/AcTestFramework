@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using Autodesk.AutoCAD.ApplicationServices.Core;
+using Autodesk.Civil.DatabaseServices;
+using Autodesk.Windows;
 using Jpp.AcTestFramework;
 using NUnit.Framework;
 
@@ -9,7 +12,7 @@ namespace AcTestFramework.Tests
     public class CoreTestFixtureUsingListener : CoreConsoleTestFixture
     {
         public CoreTestFixtureUsingListener()
-            : base(new CoreConsoleFixtureArguments(Assembly.GetExecutingAssembly(),
+            : base(new CoreConsoleFixtureArguments(System.Reflection.Assembly.GetExecutingAssembly(),
                 typeof(CoreTestFixtureUsingListener), ""))
         {
 
@@ -122,5 +125,18 @@ namespace AcTestFramework.Tests
             Array.Reverse(charArray);
             return new string(charArray);
         }
+
+        [Test]
+        public void TestMethod_AccessDrawingName()
+        {
+            var response = RunTest<string>(nameof(Method_AccessDrawingName));
+            Assert.IsTrue(!string.IsNullOrWhiteSpace(response));
+        }
+
+        public static string Method_AccessDrawingName()
+        {
+            return Application.DocumentManager.MdiActiveDocument.Name;
+        }
+
     }
 }
