@@ -4,7 +4,9 @@
     <RootNamespace>Jpp.AcTestFramework</RootNamespace>    
     <TargetFramework>net472</TargetFramework>
     <Configurations>Debug 2019;Release 2019;Debug 2020;Release 2020;Debug 2021;Release 2021;Debug 2022;Release 2022;Debug 2023;Release 2023</Configurations>	
-	<NuspecFile>AcTestFramework.nuspec</NuspecFile>    
+	<NuspecFile>AcTestFramework.nuspec</NuspecFile>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition="$(Configuration.Contains('2019'))">
     <AcVersion>2019</AcVersion>	
@@ -79,15 +81,10 @@
   </ItemGroup>  
   <ItemGroup>    
     <PackageReference Include="NLog">
-      <Version>5.1.1</Version>
+      <Version>5.2.5</Version>
     </PackageReference>
     <PackageReference Include="NUnit">
-      <Version>3.13.3</Version>
-    </PackageReference>
-	<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
-      <Version>3.3.2</Version>
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <Version>3.14.0</Version>
     </PackageReference>
   </ItemGroup>
 </Project>
