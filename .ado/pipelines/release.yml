@@ -86,6 +86,8 @@ jobs:
       configuration: 'Release $(poolFlag)'
       versioningScheme: 'off'      
       buildProperties: 'Id=JPP.AcTestFramework.$(poolFlag)'  
+    env:
+      NUGET_ENABLE_LEGACY_CSPROJ_PACK: true
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: Nuget $(poolFlag)
 
@@ -103,17 +105,5 @@ jobs:
   - script: |
       dotnet nuget add source https://nuget.pkg.github.com/jppgroup/index.json --name "github" --username jppgroup --password $(GithubPAT) --store-password-in-clear-text
       dotnet nuget push "$(Pipeline.Workspace)\**\*.nupkg" --source "github" --skip-duplicate   
-  - task: GitHubRelease@1
-    inputs:
-      gitHubConnection: 'Github'
-      repositoryName: 'JPPGroup/AcTestFramework'
-      action: 'create'
-      target: '$(Build.SourceVersion)'
-      tagSource: 'gitTag'
-      tagPattern: 'v.*'
-      releaseNotesSource: 'inline'
-      releaseNotesInline: 'Latest version'
-      isDraft: true
-      changeLogCompareToRelease: 'lastFullRelease'
-      changeLogType: 'commitBased'
-      assets: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Worksapce)/**/*.symbols.nupkg'
+    env:
+      NUGET_ENABLE_LEGACY_CSPROJ_PACK: true
